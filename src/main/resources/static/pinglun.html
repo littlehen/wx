@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>评论头条</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="bootstrap-switch-master/dist/css/bootstrap3/bootstrap-switch.css" rel="stylesheet" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+      button.margin{margin-left: 50px;}
+    </style>
+  </head>
+  <body>
+    
+  <form class="form-horizontal">
+    <fieldset>
+      
+    
+
+    <div class="control-group"  style="margin-top:10px" >
+
+          <!-- Text input-->
+          <label class="control-label col-sm-2" for="input01">微博主账号</label>
+          <div class=" col-sm-10">
+            <input type="text" placeholder="微博账号" class="form-control input-xlarge">
+            <p class="help-block"></p>
+          </div>
+        </div>
+
+    <div class="control-group">
+
+          <!-- Search input-->
+          <label class="control-label col-sm-2">账号密码</label>
+          <div class=" col-sm-10">
+            <input type="text" placeholder="密码" class="form-control input-xlarge search-query">
+            <p class="help-block"></p>
+          </div>
+    </div>
+
+    <div class="control-group">
+
+          <!-- Textarea -->
+          <label class="control-label col-sm-2">评论内容</label>
+          <div class="controls">
+            <div class="col-sm-10">
+                  <textarea type="" class="form-control" rows="3"> </textarea>
+            </div>
+          </div>
+        </div>
+
+    <div class="control-group">
+          <label class="control-label col-sm-2">图片评论</label>
+          <div class="controls">
+                <div class="col-sm-10">
+                  <input id="mySwitch1" name="status1" type="checkbox" >          
+                </div>
+        </div>
+    </div>
+
+
+    <p>
+    <div class="control-group " style="margin-left:100px"  id="1"> 
+      <div class="controls">
+                <div class="controls">
+				   <input class="input-file" id="fileInput" type="file">
+                </div>
+          </div>
+    </div>
+	</p>
+
+    <div class="control-group" style="width: 100%">
+      <label class="control-label col-sm-2">图片点赞</label>
+        <div class="controls">
+                <div class="col-sm-10">
+                  <input id="mySwitch" name="status" type="checkbox"  >
+                </div>
+        </div>
+    </div>
+
+    <div class="control-group" style="width: 100%" id="2">
+          <!-- Select Basic -->
+          <label class="control-label col-sm-2">点赞数量</label>
+          <div class="controls">
+                <div class="col-sm-10">
+                  <select class="form-control input-sm">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option></select>
+                </div>
+          </div>
+      </div>
+
+    <div class="control-group" style="margin-top: 10px ;margin-left: 0px">
+	    <p>
+		<div class="btn-group col-sm-12" style="width: 100%">
+        <button id='submitId' class="btn btn-success btn-lg btn-block" type="submit" >提交</button>
+        </div>
+		 </p>
+		 <p>
+		<div class="btn-group col-sm-12" style="width: 100%">
+		<button class="btn btn-danger btn-lg btn-block" type="cancel"  >取消</button>
+		 </div>
+		 </p>
+    </div>
+
+    </fieldset>
+  </form>
+
+
+
+</div>
+
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+
+        <script src="js/jquery-1.9.1.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap-switch.js"></script>
+
+         <script type="text/javascript">
+          $(function () {
+    $('input[type=checkbox]').bootstrapSwitch({ size: "small",onText:"开",offText:"关",onColor:"danger",offColor:"info"
+    });
+})
+    </script>
+    <script type="text/javascript">
+	  $("div[id=1]").toggle();
+      $('input[name="status1"]').bootstrapSwitch({ onSwitchChange:function(){
+      $("div[id=1]").toggle();
+      } }); 
+    </script>
+
+
+    <script type="text/javascript">
+          $(function () {
+    $('input[type=checkbox]').bootstrapSwitch({ size: "small",onText:"开",offText:"关",onColor:"danger",offColor:"info"
+    });
+})
+    </script>
+    <script type="text/javascript">
+	 $("div[id=2]").toggle();
+      $('input[name="status"]').bootstrapSwitch({ onSwitchChange:function(){
+      $("div[id=2]").toggle();
+      } }); 
+    </script type="text/javascript">
+    $(function(){
+    	$("#")
+    })
+    <script>
+    </script>
+
+  </body>
+
+
+
+</html>
