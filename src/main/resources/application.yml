@@ -1,7 +1,7 @@
 spring: 
   datasource: 
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/xiaomi?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3305/xiaomi?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: root
   jpa:
@@ -10,4 +10,8 @@ spring:
         hbm2ddl:
           auto: update
     show-sql: true
+    
+wechat: 
+  appid: wxf00dadf1b0a45c61
+  secret: 1b827a59a69bd22c589a7a46bb14d9f3
 

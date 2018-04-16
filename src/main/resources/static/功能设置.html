@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>功能设置</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="bootstrap-switch-master/dist/css/bootstrap3/bootstrap-switch.css" rel="stylesheet" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+      button.margin{margin-left: 50px;}
+    </style>
+
+    <style type="text/css">
+    	.row-margin-top{
+    		margin-top: 20px;
+    	}
+    </style>
+
+    <style type="text/css">
+    	.row-margin-toper{
+    		margin-top: 50px;
+    	}
+    </style>
+
+  </head>
+  <body>
+    
+  <form class="form-horizontal">
+    <fieldset>
+      <div id="legend" class="">
+        <legend class="">功能设置</legend>
+      </div>
+    
+  <div class="container-fluid">
+
+  <div class="row">
+    <div class="control-group">
+
+          <!-- Text input-->
+          <label class="control-label col-xs-4"  for="">评论助手功能</label>
+          <div class="col-xs-8" >
+          	<input id="mySwitch" name="status" type="checkbox">
+          </div>
+     </div>
+  </div>
+
+
+  <div class="row row-margin-top">
+    <div class="control-group">
+          <!-- Text input-->
+          <label class="control-label col-xs-4" for="">不重复评论</label>
+          <div class="col-xs-8">
+          <input id="mySwitch" name="status" type="checkbox">
+          </div>
+        </div>
+  </div>
+
+
+  <div class="row row-margin-toper">
+  	<div class="control-group">
+  		  <label class="control-label col-xs-6" for="">遥控频率:</label>
+          <div class="controls">
+                <div class="col-sm-6">
+                  <select class="form-control input-sm">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option></select>
+                </div>
+          </div>
+  	</div>
+  </div>
+
+
+  <div class="row row-margin-top">
+  	<div class="control-group">
+  		  <label class="control-label col-xs-6" for="">捡到一条后休息:</label>
+          <div class="controls">
+                <div class="col-sm-6">
+                  <select class="form-control input-sm">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option></select>
+                </div>
+          </div>
+  	</div>
+  </div>
+
+
+  <div class="row row-margin-top">
+  	<div class="control-group">
+  		  <label class="control-label col-xs-6" for="">几秒后开始回复点赞:</label>
+          <div class="controls">
+                <div class="col-sm-6">
+                  <select class="form-control input-sm">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option></select>
+                </div>
+          </div>
+  	</div>
+  </div>
+
+
+
+  <div class="row row-margin-top">
+  	<div class="control-group">
+  		  <label class="control-label col-xs-6" for="">只抢评论量少于:</label>
+          <div class="controls">
+                <div class="col-sm-6">
+                  <select class="form-control input-sm">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option></select>
+                </div>
+          </div>
+  	</div>
+  </div>
+
+    <div class="row row-margin-toper">
+  	<div class="control-group">
+          <div class="controls">
+                <div class="col-xs-12">
+                  <select class="form-control input-lg">
+            <option>只抢转发原创</option>
+            <option>只抢原创</option>
+            <option>只抢转发</option></select>
+                </div>
+          </div>
+  	</div>
+  </div>
+
+
+
+  <div class="row row-margin-top">
+    <div class="control-group">
+      <div class="btn-group">
+        <button class="btn btn-success  col-xs-4" type="submit">提交</button>
+        <button class="btn btn-danger col-xs-4" style="margin-left: 40px" type="cancel">取消</button>
+      </div>
+    </div>
+  </div>
+
+    </div>
+    </fieldset>
+  </form>
+
+
+
+</div>
+
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+
+        <script src="js/jquery-1.9.1.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap-switch.js"></script>
+
+         <script type="text/javascript">
+          $(function () {
+    $('input[type=checkbox]').bootstrapSwitch({ size: "small",onText:"开",offText:"关",onColor:"danger",offColor:"info"
+    });
+})
+    </script>
+    <script type="text/javascript">
+      $('input[name="status1"]').bootstrapSwitch({ onSwitchChange:function(){
+      $("div[id=1]").toggle();
+      } }); 
+    </script>
+
+
+    <script type="text/javascript">
+          $(function () {
+    $('input[type=checkbox]').bootstrapSwitch({ size: "small",onText:"开",offText:"关",onColor:"danger",offColor:"info"
+    });
+})
+    </script>
+    <script type="text/javascript">
+      $('input[name="status"]').bootstrapSwitch({ onSwitchChange:function(){
+      $("div[id=2]").toggle();
+      } }); 
+    </script>
+
+  </body>
+
+
+
+</html>

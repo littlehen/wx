@@ -161,13 +161,22 @@
       $('input[name="status"]').bootstrapSwitch({ onSwitchChange:function(){
       $("div[id=2]").toggle();
       } }); 
-    </script type="text/javascript">
-    $(function(){
-    	$("#")
-    })
-    <script>
     </script>
 
+
+    <script type="text/javascript">
+    $(function(){
+    	$("#submitId").click(
+    			function(){
+    				$.ajax({
+    					type:"POST",
+    					datatype:'text'
+    				}),
+    				
+    			}
+    	)
+    })
+    </script>
   </body>
 
 
