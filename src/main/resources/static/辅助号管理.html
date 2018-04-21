@@ -118,13 +118,7 @@ ul.nav.navbar-nav  ul {
   </div>
 </div>
 
-
-
-
-
 </div>
-
-    
     
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
@@ -136,6 +130,7 @@ ul.nav.navbar-nav  ul {
     <script src="js/bootstrap-switch.js"></script>
     <script src="js/bootstrap-table-zh-CN.js"></script>
     <script src="js/bootstrap-table.js"></script>
+    <script src="js/jquerysession.js"></script>
     <script type="text/javascript">
     function AddFunctionAlty(value,row,index){
         return[
@@ -148,18 +143,40 @@ ul.nav.navbar-nav  ul {
 
         },
         "click #TableDelete" : function(e,value,row,index){
+            $.ajax({
+                url:'/daleteWeiCount',
+                type:'post',
+                data:{userId:row.userId,userName:row.userName},
+                dataType:'JSON'
+            });
           $(this).parent().parent().remove();
         }
       }
     </script>
     <script type="text/javascript">
       $('#table').bootstrapTable({
-    columns: [{
-        field: 'id',
+          url:'/searchFu',
+          method:'post',
+          pagination:true,
+          striped: true, //是否显示行间隔色
+          pageNumber:1,
+          sidePagination:'server',
+          pageSize:5,//单页记录数
+          pageList:[5,10,20,30],//分页步进值
+          queryParams:queryParams,
+
+    columns: [
+        {
+            field: 'userId',
+            title: 'userId',
+            align:'center',
+            visible:false
+        },{
+        field: 'userName',
         title: '账号',
         align:'center'
     }, {
-        field: 'name',
+        field: 'password',
         title: '密码',
         align:'center'
     },{
@@ -169,25 +186,16 @@ ul.nav.navbar-nav  ul {
       events: operateEvents,
       formatter:AddFunctionAlty,
     }
-    ],
-    data: [{
-        id: 18368492583,
-        name: '',
-    }, {
-        id: 18368492852,
-        name: '',
-    },{
-        id: 183684923131,
-        name: '',
-    },{
-        id: 183684123152,
-        name: '',
-    },{
-        id: 183128492852,
-        name: '',
-    }
     ]
-}); 
+});
+
+      function queryParams(params) {
+          return{
+              pageSize:params.limit,
+              offset:params.pageNumber,
+              openid:$.session.get('openId')
+          }
+      }
     </script>
 
   </body>

@@ -23,8 +23,7 @@ public class WeiboController {
 
     @RequestMapping("/searchFu")
     public JSONObject searchFu(String pageSize,String offset ,String openid){
-        JSONObject jsonObject = null;
-        return jsonObject;
+        return weiboService.searchFu(pageSize,offset,openid);
     }
 
     @RequestMapping("/editWeibo")

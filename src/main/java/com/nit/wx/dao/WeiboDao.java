@@ -14,4 +14,7 @@ public interface WeiboDao extends JpaRepository<Weibo,Integer> {
 
     @Query(nativeQuery = true,value = "SELECT * from weibo WHERE FUhaoNumber != ?1 and UserId = ?2")
     Weibo findByFuhaoNumberAndUserId(Integer fuhaoNumber,Integer userId);
+
+
+    Weibo findByUserIdAndUserName(Integer userId,String userName);
 }

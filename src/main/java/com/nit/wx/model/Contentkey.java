@@ -21,7 +21,7 @@ public class Contentkey {
     private String keyWord;
 
     @Column(name = "ContentId")
-    private Integer contentId;
+    private String contentId;
 
     @NotNull
     @Column(name = "ContentFu")
@@ -51,11 +51,11 @@ public class Contentkey {
         this.keyWord = keyWord;
     }
 
-    public Integer getContentId() {
+    public String getContentId() {
         return contentId;
     }
 
-    public void setContentId(Integer contentId) {
+    public void setContentId(String contentId) {
         this.contentId = contentId;
     }
 

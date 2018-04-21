@@ -1,6 +1,7 @@
 package com.nit.wx.controller;
 
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
@@ -9,9 +10,16 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.nit.wx.model.Ismember;
+import com.nit.wx.service.IsmemberService;
+import com.nit.wx.util.MessageUtil;
 import net.sf.json.JSONObject;
 
+import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,6 +46,12 @@ public class WeiXinController
 	
 	@Autowired 
 	DisanfangInfoDao disanfangInfoDao;
+
+	@Autowired
+	IsmemberService ismemberService;
+
+
+
 	/**
 	 * 
 	 * @Description 授权事件接收
@@ -171,8 +185,6 @@ public class WeiXinController
     * @Description 公众号用户回调的url，获取授权码（authorization_code）
     * @author 吴佶津
     * @date 2018年4月18日
-    * @param request
-    * @param response
     * @param res
     * @throws IOException
     */
@@ -204,13 +216,12 @@ public class WeiXinController
 	 * @author 吴佶津
 	 * @date 2018年4月15日
 	 * @param request
-	 * @param response
 	 * @param res
 	 * @throws IOException
 	 * @throws ParseException 
 	 */
   @RequestMapping("/vote.do")
-  public void weixinRedirect(HttpServletRequest request, HttpServletResponse response, HttpServletResponse res)
+  public void weixinRedirect(HttpServletRequest request,  HttpServletResponse res)
     throws IOException, ParseException
   {
 	  Disanfanginfo disanfangInfo = new Disanfanginfo();
@@ -264,8 +275,14 @@ public class WeiXinController
     JSONObject jsonObject1 = WeixinUtil.httpRequest(get_userinfo, "GET", null);
     String nickname = jsonObject1.getString("nickname");
     String headimgurl = jsonObject1.getString("headimgurl");
-    
-
+	if ("".equals(disanfangInfo.getQrCode())) {
+		String get_qrCode = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + access_token;
+		String jsonStr = "{\"action_name\": \"QR_LIMIT_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": \"test\"}}}";
+		JSONObject jsonObject2 = WeixinUtil.httpRequest(get_qrCode, "post", jsonStr);
+		String url = jsonObject2.getString("url");
+		disanfangInfo.setQrCode(url);
+		disanfangInfoDao.save(disanfangInfo);
+	}
     res.sendRedirect("index.html?" + nickname + "&" + headimgurl + "&" + openid);
   }
   
@@ -275,13 +292,12 @@ public class WeiXinController
 	 * @author 吴佶津
 	 * @date 2018年4月15日
 	 * @param request
-	 * @param response
 	 * @param res
 	 * @throws IOException
   	 * @throws ParseException 
 	 */
   @RequestMapping("/vote")
-  public void weixinRedirectt(HttpServletRequest request, HttpServletResponse response, HttpServletResponse res)
+  public void weixinRedirectt(HttpServletRequest request,  HttpServletResponse res)
     throws IOException, ParseException
   {
 	  Disanfanginfo disanfangInfo = new Disanfanginfo();
@@ -334,8 +350,46 @@ public class WeiXinController
     JSONObject jsonObject1 = WeixinUtil.httpRequest(get_userinfo, "GET", null);
     String nickname = jsonObject1.getString("nickname");
     String headimgurl = jsonObject1.getString("headimgurl");
-    
-
+  	if ("".equals(disanfangInfo.getQrCode())) {
+		String get_qrCode = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + access_token;
+		String jsonStr = "{\"action_name\": \"QR_LIMIT_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": \"test\"}}}";
+		JSONObject jsonObject2 = WeixinUtil.httpRequest(get_qrCode, "post", jsonStr);
+		String url = jsonObject2.getString("url");
+		disanfangInfo.setQrCode(url);
+		disanfangInfoDao.save(disanfangInfo);
+  	}
     res.sendRedirect("wsindex.html?" + nickname + "&" + headimgurl + "&" + openid);
+  }
+
+
+  @RequestMapping("/wechat/messageReceive/{appid}/callback")
+  public void MessageReceive(HttpServletRequest request,HttpServletResponse response){
+	  String msgSignature = request.getParameter("msg_signature");
+	  try{
+		  StringBuilder sb = new StringBuilder();
+		  BufferedReader in = request.getReader();
+		  String line;
+		  while ((line = in.readLine())!= null){
+			sb.append(line);
+		  }
+		  in.close();
+		  String xml = sb.toString();
+		  Document document = DocumentHelper.parseText(xml);
+		  Element rootElt = document.getRootElement();
+		  String FromName = rootElt.elementText("FromUserName");
+		  String MsgType = rootElt.elementText("MsgType");
+		  String evenType = rootElt.elementText("Event");
+		  if (MsgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)){
+			if (evenType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE) || evenType.equals(MessageUtil.EVENT_TYPE_SCAN)){
+				ismemberService.findUserState(FromName);
+			}
+		  }
+		  PrintWriter pw = response.getWriter();
+		  pw.write("success");
+		  pw.flush();
+	  } catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
   }
 }

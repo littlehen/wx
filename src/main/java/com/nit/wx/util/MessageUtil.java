@@ -1,6 +1,7 @@
-package com.nit.wx.erweima;
+package com.nit.wx.util;
 
-public class MessageUtil {
+public  class MessageUtil {
+
     /**
      * 返回消息类型：文本
      */
@@ -73,5 +74,4 @@ public class MessageUtil {
      * 事件类型：transfer_customer_service(把消息推送给客服)
      */
     public static final String EVENT_TYPE_TRANSFER_CUSTOMER_SERVICE = "transfer_customer_service";
-
 }
