@@ -59,7 +59,7 @@ private static Logger log = LoggerFactory.getLogger(WeixinUtil.class);
             // 设置请求方式（GET/POST）
             httpUrlConn.setRequestMethod(requestMethod);
  
-            if ("GET".equalsIgnoreCase(requestMethod))
+            //if ("GET".equalsIgnoreCase(requestMethod))
                 httpUrlConn.connect();
  
             // 当有数据需要提交时

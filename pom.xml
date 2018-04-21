@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.example</groupId>
-	<artifactId>baijiajieadd</artifactId>
+	<groupId>com.nit</groupId>
+	<artifactId>wx</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>baijiajieadd</name>
+	<name>wx</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
@@ -36,7 +36,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			 <!-- 排除内置容器，排除内置容器导出成war包可以让外部容器运行spring-boot项目 -->     
+			 <!-- 排除内置容器，排除内置容器导出成war包可以让外部容器运行spring-boot项目
             <exclusions>
                 <exclusion>
                     <artifactId>log4j-over-slf4j</artifactId>
@@ -50,7 +50,7 @@
 		</dependency>
 		 <dependency>  
             <groupId>javax.servlet</groupId>  
-            <artifactId>javax.servlet-api</artifactId>
+            <artifactId>javax.servlet-api</artifactId>   --> 
 		
 		</dependency>  
 		<dependency>
@@ -68,12 +68,6 @@
 		    <artifactId>json-lib</artifactId>    
 		    <version>2.4</version>    
 		    <classifier>jdk15</classifier>    
-		</dependency>
-		<dependency>
-		    <groupId>javax.servlet</groupId>
-		    <artifactId>javax.servlet-api</artifactId>
-		    <version>3.1.0</version>
-		    <scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>

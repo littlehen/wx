@@ -13,7 +13,6 @@ import net.sf.json.JSONObject;
 
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,9 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nit.wx.bean.component.ApiQueryAuthResult;
 import com.nit.wx.bean.component.AuthorizerAccessToken;
+import com.nit.wx.bean.component.PreAuthCode;
 import com.nit.wx.dao.DisanfangInfoDao;
 import com.nit.wx.disanfangutil.ComponentAPI;
 import com.nit.wx.model.Disanfanginfo;
+import com.nit.wx.service.DisanfangInfoService;
 import com.nit.wx.util.AesException;
 import com.nit.wx.util.CVTicketUtil;
 import com.nit.wx.util.WeixinUtil;
@@ -33,9 +34,10 @@ import com.nit.wx.util.WeixinUtil;
 public class WeiXinController
 {
 	@Autowired 
+	DisanfangInfoService disanfangInfoService;
+	
+	@Autowired 
 	DisanfangInfoDao disanfangInfoDao;
-	
-	
 	/**
 	 * 
 	 * @Description 授权事件接收
@@ -53,11 +55,29 @@ public class WeiXinController
 	   CVTicketUtil cvTicketUtil = new CVTicketUtil();
            try {
                //处理授权事件
-        	   cvTicketUtil.handleAuthorize(request,response);
+        	   String component_verify_ticket = cvTicketUtil.handleAuthorize(request,response);
+        	   Disanfanginfo disanfangInfo = new Disanfanginfo();
+        	   disanfangInfo = disanfangInfoDao.findOne("wx3d6a383a2aa2b1e2");
+        	   if(disanfangInfo == null) {
+   	       		disanfangInfo.setComponentappid("wx3d6a383a2aa2b1e2");
+   	       		disanfangInfo.setComponentappsecret("R3L7ap7lTL37ZVvazV8266gV7L57Ll362F5vQZ67752");
+   	       		disanfangInfo.setComponentverifyticket(component_verify_ticket);
+   	       	    System.out.println("component_verify_ticket存入成功2");
+   	       	    disanfangInfoDao.save(disanfangInfo);
+   	       	   }
+        	   else {
+	       		disanfangInfo.setComponentappid(disanfangInfo.getComponentappid());
+	       		disanfangInfo.setComponentverifyticket(component_verify_ticket);
+	       	    System.out.println("component_verify_ticket存入成功2");
+	       	    disanfangInfoDao.save(disanfangInfo);
+	       	   }
+	     	   
+               
                PrintWriter pw = response.getWriter();
                pw.write("success");
                pw.flush();
-               cvTicketUtil.getpreauthcode();
+               getcomponent_access_token();
+               getpreauthcode();
               
            } catch (Exception e) {
                // TODO Auto-generated catch block
@@ -65,6 +85,78 @@ public class WeiXinController
            }
    }
    
+	 /**
+     * 
+     * @Description 获取component_access_token
+     * @author 吴佶津
+     * @date 2018年4月16日
+     * @throws Exception
+     */
+    public void getcomponent_access_token() throws Exception { 
+ 	   String url = "https://api.weixin.qq.com/cgi-bin/component/api_component_token";
+ 	   
+ 	   Disanfanginfo disanfangInfo = new Disanfanginfo();
+ 	   disanfangInfo = disanfangInfoDao.findOne("wx3d6a383a2aa2b1e2");
+ 	   if(disanfangInfo != null) {
+ 		  JSONObject json = new JSONObject();
+ 	       json.accumulate("component_appid",disanfangInfo.getComponentappid());
+ 	       json.accumulate("component_appsecret",disanfangInfo.getComponentappsecret());
+ 	       json.accumulate("component_verify_ticket",disanfangInfo.getComponentverifyticket());
+ 	       String outtime_cactoken = disanfangInfo.getOuttimecactoken();
+ 	       if(outtime_cactoken !=null && outtime_cactoken != "") {
+ 	    	   SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+ 	    	   Date d1 = new Date();  
+ 	    	   Date d2 =  df.parse(outtime_cactoken);  
+ 	    	   long interval = (d1.getTime() - d2.getTime());
+ 	    	   if(interval > 7000) {
+ 	    		   JSONObject jsonObject = WeixinUtil.httpRequest(url, "POST", json.toString());
+ 	    		   if(jsonObject != null) {
+ 	   			    String component_access_token = jsonObject.getString("component_access_token");
+ 	   				System.out.println("component_access_token:----"+component_access_token);
+ 	   				disanfangInfo.setComponentappid(disanfangInfo.getComponentappid());
+ 	   				disanfangInfo.setComponentaccesstoken(component_access_token);
+ 	   				disanfangInfo.setOuttimecactoken(df.format(new Date()));
+ 	   				if(disanfangInfoDao.save(disanfangInfo) != null) {
+ 	   					System.out.println("component_access_token----更新成功");
+ 	   				}
+ 	   			}
+ 	    	   }
+ 	       }
+ 	      if(outtime_cactoken == null || outtime_cactoken == "") {
+ 	    	   JSONObject jsonObject = WeixinUtil.httpRequest(url, "POST", json.toString());
+ 	    	  System.out.println(jsonObject);
+ 	    	 System.out.println(jsonObject.toString());
+ 	    	   if(jsonObject != null) {
+	 	    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+ 	   			    String component_access_token = jsonObject.getString("component_access_token");
+ 	   				System.out.println("component_access_token:----"+component_access_token);
+ 	   				disanfangInfo.setComponentappid(disanfangInfo.getComponentappid());
+ 	   				disanfangInfo.setComponentaccesstoken(component_access_token);
+ 	   				disanfangInfo.setOuttimecactoken(df.format(new Date()));
+ 	   				if(disanfangInfoDao.save(disanfangInfo) != null) {
+ 	   					System.out.println("component_access_token----保存成功");
+ 	   				}
+ 	   			}
+ 	       } 		  
+ 	    }
+ 	  }
+	
+    
+    
+    public void getpreauthcode() {
+    	System.out.println("999999999999");
+    	Disanfanginfo disanfangInfo = new Disanfanginfo();
+    	PreAuthCode preAuthCode = new PreAuthCode();
+  	    disanfangInfo = disanfangInfoDao.findOne("wx3d6a383a2aa2b1e2");
+  	    if(disanfangInfo != null) {
+  	    	preAuthCode = ComponentAPI.api_create_preauthcode(disanfangInfo.getComponentaccesstoken(), disanfangInfo.getComponentappid());
+  	    	disanfangInfo.setComponentappid(disanfangInfo.getComponentappid());
+  	    	disanfangInfo.setPreauthcode(preAuthCode.getPre_auth_code());
+  	    	disanfangInfoDao.save(disanfangInfo);
+  	    	System.out.println("获取预授权码成功!"+preAuthCode.getPre_auth_code());
+    	}
+    }
+    
    @RequestMapping(value="/wechat/test",method={RequestMethod.GET,RequestMethod.POST})
    public void testW(HttpServletResponse response,HttpServletRequest request) throws IOException {
 	   Disanfanginfo disanfangInfo = new Disanfanginfo();
@@ -94,6 +186,7 @@ public class WeiXinController
 	 	   disanfangInfo = disanfangInfoDao.findOne("wx3d6a383a2aa2b1e2");
 	 	   ApiQueryAuthResult apiQueryAuthResult = new ApiQueryAuthResult();
 	 	   apiQueryAuthResult = ComponentAPI.api_query_auth(disanfangInfo.getComponentaccesstoken(), disanfangInfo.getComponentappid(), auth_code);
+	 	   disanfangInfo.setComponentappid(disanfangInfo.getComponentappid());
 	 	   disanfangInfo.setAuthorizeraccesstoken(apiQueryAuthResult.getAuthorization_info().getAuthorizer_access_token());
 	 	   disanfangInfo.setAuthorizerrefreshtoken(apiQueryAuthResult.getAuthorization_info().getAuthorizer_refresh_token());
 	 	   disanfangInfo.setOuttimeaactoken(df.format(new Date()));
@@ -130,6 +223,7 @@ public class WeiXinController
 	  if(interval > 7000) {		  
 		  AuthorizerAccessToken authorizerAccessToken = new AuthorizerAccessToken();
 		  authorizerAccessToken = ComponentAPI.api_authorizer_token(disanfangInfo.getComponentaccesstoken(), disanfangInfo.getComponentappid(), "wx49ccd98a0038211d", disanfangInfo.getAuthorizerrefreshtoken());
+		  disanfangInfo.setComponentappid(disanfangInfo.getComponentappid());
 		  disanfangInfo.setAuthorizeraccesstoken(authorizerAccessToken.getAuthorizer_access_token());
 		  disanfangInfo.setAuthorizerrefreshtoken(authorizerAccessToken.getAuthorizer_refresh_token());
 		  disanfangInfo.setOuttimeaactoken(df.format(new Date()));
@@ -200,6 +294,7 @@ public class WeiXinController
 	  if(interval > 7000) {		  
 		  AuthorizerAccessToken authorizerAccessToken = new AuthorizerAccessToken();
 		  authorizerAccessToken = ComponentAPI.api_authorizer_token(disanfangInfo.getComponentaccesstoken(), disanfangInfo.getComponentappid(), "wx49ccd98a0038211d", disanfangInfo.getAuthorizerrefreshtoken());
+		  disanfangInfo.setComponentappid(disanfangInfo.getComponentappid());
 		  disanfangInfo.setAuthorizeraccesstoken(authorizerAccessToken.getAuthorizer_access_token());
 		  disanfangInfo.setAuthorizerrefreshtoken(authorizerAccessToken.getAuthorizer_refresh_token());
 		  disanfangInfo.setOuttimeaactoken(df.format(new Date()));
