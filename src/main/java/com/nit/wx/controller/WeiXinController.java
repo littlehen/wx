@@ -266,7 +266,7 @@ public class WeiXinController
     String headimgurl = jsonObject1.getString("headimgurl");
     
 
-    res.sendRedirect("index.html?" + nickname + "&" + headimgurl);
+    res.sendRedirect("index.html?" + nickname + "&" + headimgurl + "&" + openid);
   }
   
   	/**
@@ -336,6 +336,6 @@ public class WeiXinController
     String headimgurl = jsonObject1.getString("headimgurl");
     
 
-    res.sendRedirect("wsindex.html?" + nickname + "&" + headimgurl);
+    res.sendRedirect("wsindex.html?" + nickname + "&" + headimgurl + "&" + openid);
   }
 }

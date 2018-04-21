@@ -57,6 +57,7 @@
 	
 	<script type="text/javascript" src="js/clickm.js"></script>
 	<script src="js/jquery-1.9.1.js"></script>
+    <script src="js/jquerysession.js"></script>
 	<script>
 		var url = location.search; //获取url中"?"符后的字串    
 		if (url.indexOf("?") != -1) {   
@@ -64,6 +65,7 @@
 			strs = str.split("&");
 			var nickname = strs[0];
 			var headimgurl = strs[1];
+            $.session.set("openId",strs[2]);
 			$("#headimg").attr("src",headimgurl);
 			document.getElementById("ahtm").innerHTML="用户昵称:"+nickname;
 

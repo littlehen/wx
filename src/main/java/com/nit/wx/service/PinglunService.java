@@ -14,4 +14,9 @@ public class PinglunService {
 
     @Autowired
     ContentkeyDao contentkeyDao;
+
+
+    public void addPinglun(){
+
+    }
 }
