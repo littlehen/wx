@@ -128,8 +128,8 @@ ul.nav.navbar-nav  ul {
         <script src="js/jquery-1.9.1.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/bootstrap-switch.js"></script>
-    <script src="js/bootstrap-table-zh-CN.js"></script>
     <script src="js/bootstrap-table.js"></script>
+    <script src="js/bootstrap-table-zh-CN.js"></script>
     <script src="js/jquerysession.js"></script>
     <script type="text/javascript">
     function AddFunctionAlty(value,row,index){
@@ -154,48 +154,98 @@ ul.nav.navbar-nav  ul {
       }
     </script>
     <script type="text/javascript">
-      $('#table').bootstrapTable({
-          url:'/searchFu',
-          method:'post',
-          pagination:true,
-          striped: true, //是否显示行间隔色
-          pageNumber:1,
-          sidePagination:'server',
-          pageSize:5,//单页记录数
-          pageList:[5,10,20,30],//分页步进值
-          queryParams:queryParams,
-
-    columns: [
-        {
-            field: 'userId',
-            title: 'userId',
-            align:'center',
-            visible:false
-        },{
-        field: 'userName',
-        title: '账号',
-        align:'center'
-    }, {
-        field: 'password',
-        title: '密码',
-        align:'center'
-    },{
-      field:'button',
-      title:'操作',
-      align:'center',
-      events: operateEvents,
-      formatter:AddFunctionAlty,
-    }
-    ]
-});
-
-      function queryParams(params) {
-          return{
-              pageSize:params.limit,
-              offset:params.pageNumber,
-              openid:$.session.get('openId')
-          }
-      }
+    $(function () {
+	     //1.初始化Table
+	      var oTable = new TableInit();
+	    oTable.Init();
+	
+	  });
+	var TableInit = function () {
+	var oTableInit = new Object();
+	//初始化Table
+	oTableInit.Init = function () {
+	 $('#table').bootstrapTable({
+		  url:'/searchFu',
+		  method:'get',
+		  striped:true,
+		  cache: false,
+		  pagination: true, 
+		  sortable: false,
+		  sortOrder: "asc",
+		  queryParamsType : "", 
+		  queryParams: oTableInit.queryParams,
+		  sidePagination: "server",
+		  pageNumber:1,
+		  pageSize: 5, 
+		  pageList: [5,10,15],
+		  search: true,
+		  strictSearch: true,
+		  showColumns: true,  
+		  showRefresh: true,
+		  minimumCountColumns: 2, 
+		  clickToSelect: true, 
+		  showToggle:true,   
+		  cardView: false,
+		  detailView: false,  
+		  
+		    
+		
+		    
+	columns: [{
+	   field: 'userName',
+	   title: '账号',
+	   align:'center'
+	}, {
+	   field: 'password',
+	   title: '密码',
+	   align:'center'
+	},{
+	 field:'button',
+	 title:'操作',
+	 align:'center',
+	 events: operateEvents,
+	 formatter:AddFunctionAlty,
+	}
+	],
+	
+	}); 
+	}
+	
+	//得到查询的参数
+	oTableInit.queryParams = function (params) {
+	      var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+	   		pageSize: params.pageSize,   //页面大小
+	           offset: params.pageNumber,  //页码
+	           openid:'ugijk',
+	           //search:params.search
+	      };
+	      return temp;
+	   };
+	  return oTableInit;
+	
+	};
+	$('#search_btn').click(function(){
+	 $('#mytab').bootstrapTable('refresh', {url: '../index.php/admin/index/userManagement'});
+	})
+	
+	
+	
+	$("#btn1").click(function(){
+	 $.ajax({
+		  	url:'/addWeiboFu',
+			type:'post',
+			dataType:'json',
+			data:{'userName':yidangohuobi,'Password':erdangohuobi,'openId':sandangohuobi},
+			success:function(data){
+				if(data){
+					alert("编辑成功!");
+				}else{
+					alert("编辑失败!");
+				}
+			}
+	 })
+	 alert("1111");
+	})
     </script>
 
   </body>

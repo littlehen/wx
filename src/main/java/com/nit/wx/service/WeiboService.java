@@ -14,6 +14,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Pageable;
 import java.awt.print.Printable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -49,31 +50,30 @@ public class WeiboService {
 
     //辅助号列表
     public JSONObject searchFu(String pageSize, String offset , String openid){
-        JSONObject jsonObject = new JSONObject();
+    	JSONObject jsonObject = new JSONObject();
         UserList user = userListDao.findByOpenid(openid);
         List<Weibo> weiboList = weiboDao.findByUserIdAndFuhaoNumber(user.getUserid(),0);
-        if (weiboList.size() != 0){
-            int off = Integer.parseInt(offset);
-            int pagesi = Integer.parseInt(pageSize);
-            int size = off * pagesi;
-            List<Weibo> weiboList1 = new ArrayList<>();
-            if (weiboList.size() > size){
-                int k = weiboList.size()-size;
-                if (k > pagesi){
-                    for (int i = 0 ; i < pagesi;i++)
-                        weiboList1.add(weiboList.get(i+size));
-                }else
-                    for (int i = 0 ; i < k; i++)
-                        weiboList1.add(weiboList.get(i+size));
-            }else {
-                int j = pagesi*(off - 1);
-                int k = weiboList.size() - j ;
-                for (int i = 0 ; i < k ; i++)
-                    weiboList1.add(weiboList.get(i+j));
-            }
-            jsonObject.put("rows",weiboList1);
-            jsonObject.put("total",weiboList.size());
-        }
+	    List<Weibo> li = new LinkedList<Weibo>();
+	    int off = Integer.parseInt(offset);
+        int pagesi = Integer.parseInt(pageSize);
+	    if(off*pagesi >= weiboList.size()) {
+	    	if(weiboList.size()-pagesi*(off-1) > 0) {
+		    	 for(int i = 0; i < weiboList.size()-pagesi*(off-1); i++) {
+				    	li.add(weiboList.get(pagesi*(off-1)+i));
+				    }
+	    	}else {
+	    		for(int i = 0; i < weiboList.size(); i++) {
+			    	li.add(weiboList.get(pagesi*(off-1)+i));
+			    }
+	    	}
+	    }else {
+	    	for(int i = 0; i < pagesi; i++) {
+		    	li.add(weiboList.get(pagesi*(off-1)+i));
+		    }
+			    
+	    }
+	    jsonObject.put("rows",li); //内容
+	    jsonObject.put("total",weiboList.size());
         return jsonObject;
     }
 
