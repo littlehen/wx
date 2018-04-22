@@ -11,20 +11,20 @@ public class Contentkey {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ContentKeyId")
+    @Column(name = "Contentkeyid")
     private Integer contentKeyId;
 
-    @Column(name = "UserId")
+    @Column(name = "Userid")
     private Integer userID;
 
     @Column(name = "Keyword")
     private String keyWord;
 
-    @Column(name = "ContentId")
+    @Column(name = "Contentid")
     private String contentId;
 
     @NotNull
-    @Column(name = "ContentFu")
+    @Column(name = "Contentfu")
     private Integer contentFu;
 
     public Integer getContentKeyId() {
@@ -99,20 +99,20 @@ public class Contentkey {
         this.isZanFinish = isZanFinish;
     }
 
-    @Column(name = "ContentFuId")
+    @Column(name = "Contentfuid")
     private String contentFuId;
 
 
     @NotNull
-    @Column(name = "IsFinish")
+    @Column(name = "Isfinish")
     private  Integer isFinish;
 
     @NotNull
-    @Column(name = "ZanNumber")
+    @Column(name = "Zannumber")
     private Integer zanNumber;
 
     @NotNull
-    @Column(name = "IsZanFinish")
+    @Column(name = "Iszanfinish")
     private Integer isZanFinish;
 
 }

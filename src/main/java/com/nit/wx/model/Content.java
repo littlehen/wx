@@ -9,10 +9,10 @@ public class Content {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ContentId")
+    @Column(name = "Contentid")
     private  Integer contentId;
 
-    @Column(name = "UserId")
+    @Column(name = "Userid")
     private Integer userId;
 
 

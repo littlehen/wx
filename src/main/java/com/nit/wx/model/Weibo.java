@@ -11,10 +11,10 @@ public class Weibo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "WeiboId")
+    @Column(name = "Weiboid")
     private int weiboId;
 
-    @Column(name = "UserId")
+    @Column(name = "Userid")
     private Integer userId;
 
     @Column(name = "Username")
@@ -23,13 +23,13 @@ public class Weibo {
     @Column(name = "Password")
     private String password;
 
-    @Column(name = "IsMain")
+    @Column(name = "Ismain")
     private int isMain;
 
-    @Column(name = "IsFinish")
+    @Column(name = "Isfinish")
     private int isFinish;
 
-    @Column(name = "FUhaoNumber")
+    @Column(name = "Fuhaonumber")
     private int fuhaoNumber;
 
     public int getWeiboId() {

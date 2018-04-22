@@ -27,7 +27,7 @@ public class UserList  implements Serializable{
 
     private String cmoney;
 
-    @Column(name = "cleanKey")
+    @Column(name = "cleankey")
     private String cleanKey;
 
     private Date cleanStarttime;
