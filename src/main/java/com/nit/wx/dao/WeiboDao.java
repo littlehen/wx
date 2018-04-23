@@ -17,4 +17,8 @@ public interface WeiboDao extends JpaRepository<Weibo,Integer> {
 
 
     Weibo findByUserIdAndUserName(Integer userId,String userName);
+
+
+    @Query(nativeQuery = true,value = "DELETE from weibo WHERE weiboId = ?1")
+    void deleteByWeiboId(String weiboId);
 }

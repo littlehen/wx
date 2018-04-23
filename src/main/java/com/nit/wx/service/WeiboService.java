@@ -13,9 +13,7 @@ import org.springframework.stereotype.Service;
 import java.awt.print.PageFormat;
 import java.awt.print.Pageable;
 import java.awt.print.Printable;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class WeiboService {
@@ -28,9 +26,10 @@ public class WeiboService {
 
 
     //删除辅助号
-    public void daleteWeiCount(String userId,String userName){
+    public void daleteWeiCount(String weiboId,String openId){
         List<Weibo> weibos = new ArrayList<>();
-        weibos = weiboDao.findByUserId(Integer.parseInt(userId));
+        UserList user = userListDao.findByOpenid(openId);
+        weibos = weiboDao.findByUserId(user.getUserid());
         for (int i = 0; i < weibos.size();i++){
             Weibo weibo = weibos.get(i);
             if (weibo.getFuhaoNumber() != 0){
@@ -39,54 +38,21 @@ public class WeiboService {
                 System.out.println(weibo.getFuhaoNumber()+"=========================");
                 weiboDao.save(weibo);
             }
-            if (userName.equals(weibo.getUserName())){
-                System.out.println(weibo.getUserName() + "==================");
-                weiboDao.delete(weibo);
-                System.out.println(weibo.getUserName() + "==================");
-            }
         }
-
-    }
-
-    //辅助号列表
-    public JSONObject searchFu(String pageSize, String offset , String openid){
-    	JSONObject jsonObject = new JSONObject();
-        UserList user = userListDao.findByOpenid(openid);
-        List<Weibo> weiboList = weiboDao.findByUserIdAndFuhaoNumber(user.getUserid(),0);
-	    List<Weibo> li = new LinkedList<Weibo>();
-	    int off = Integer.parseInt(offset);
-        int pagesi = Integer.parseInt(pageSize);
-	    if(off*pagesi >= weiboList.size()) {
-	    	if(weiboList.size()-pagesi*(off-1) > 0) {
-		    	 for(int i = 0; i < weiboList.size()-pagesi*(off-1); i++) {
-				    	li.add(weiboList.get(pagesi*(off-1)+i));
-				    }
-	    	}else {
-	    		for(int i = 0; i < weiboList.size(); i++) {
-			    	li.add(weiboList.get(pagesi*(off-1)+i));
-			    }
-	    	}
-	    }else {
-	    	for(int i = 0; i < pagesi; i++) {
-		    	li.add(weiboList.get(pagesi*(off-1)+i));
-		    }
-			    
-	    }
-	    jsonObject.put("rows",li); //内容
-	    jsonObject.put("total",weiboList.size());
-        return jsonObject;
+        weiboDao.deleteByWeiboId(weiboId);
     }
 
     //编辑辅助号
     public void editWeibo(String weiboId,String userName,String Password){
         Weibo weibo = weiboDao.findOne(Integer.parseInt(weiboId));
         weibo.setUserName(userName);
-        weibo.setPassword(Password);
+        if (!"%11111111".equals(Password))
+            weibo.setPassword(Password);
         weiboDao.save(weibo);
     }
 
 
-    public void addWeiboFu(String weiboId,String userName,String Password,String openId){
+    public void addWeiboFu(String userName,String Password,String openId){
         UserList user = userListDao.findByOpenid(openId);
         int userId = user.getUserid();
         Weibo weibo = new Weibo();
@@ -99,5 +65,17 @@ public class WeiboService {
         weibo.setFuhaoNumber(weibo.getFuhaoNumber() - 1);
         System.out.println(weibo.getFuhaoNumber()+"======================================");
         weiboDao.save(weibo);
+    }
+
+
+    //辅助号列表
+    public Map<String,Object> searchFu(String openId){
+        Map<String,Object> map = new HashMap<>();
+//        UserList user = userListDao.findByOpenid(openId);
+//        List<Weibo> weibos = weiboDao.findByUserId(user.getUserid());
+        List<Weibo> weiboList = weiboDao.findAll();
+        map.put("number",weiboList.size());
+        map.put("weiboList",weiboList);
+        return map;
     }
 }

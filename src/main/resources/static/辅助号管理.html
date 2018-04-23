@@ -38,7 +38,7 @@
     	}
     </style>
     <style type="text/css">
-          body{margin:40px;} 
+          body{margin:40px;}
     </style>
 
     <style type="text/css">
@@ -71,11 +71,34 @@ ul.nav.navbar-nav  ul {
 }
     </style>
 
+      <style>
+          .container{
+              width:auto;
+              height: 60px;
+              position:relative;
+              box-shadow: 0px 2px 0px 3px rgba(26, 6, 37, 0.43);
+          }
+
+          .content{
+              position:relative;
+              top:10px;
+          }
+
+          .delete{
+              width:20px;
+              height:20px;
+              border-radius:60%;
+              position:absolute;
+              top:-10px;
+              right:-10px;
+          }
+      </style>
   </head>
-  <body>
+  <body >
 
+  <div id="allCount">
 
-  <table id="table" data-striped="true" data-search="true" data-show-refresh="true"></table>
+  </div>
 
   <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
     <div class="container-fluid">
@@ -100,19 +123,19 @@ ul.nav.navbar-nav  ul {
         <div class="row">
           <div class="col-xs-4">账号：</div>
           <div class="col-xs-8">
-            <input type="text" name="" id="" style="width: 100%">
+            <input type="text" name="" id="aeUsername" style="width: 100%">
           </div>
         </div>
         <div class="row" style="margin-top: 10px">
           <div class="col-xs-4">密码：</div>
           <div class="col-xs-8">
-            <input type="text" name="" id="" style="width: 100% ">
+            <input type="password" name="" id="aePassword" style="width: 100% ">
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn btn-primary">提交</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cancel()">关闭</button>
+        <button type="button" class="btn btn-primary" onclick="aeWeiboFu()">提交</button>
       </div>
     </div>
   </div>
@@ -125,129 +148,111 @@ ul.nav.navbar-nav  ul {
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
 
-        <script src="js/jquery-1.9.1.js"></script>
+    <script src="js/jquery-1.9.1.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/bootstrap-switch.js"></script>
     <script src="js/bootstrap-table.js"></script>
     <script src="js/bootstrap-table-zh-CN.js"></script>
     <script src="js/jquerysession.js"></script>
     <script type="text/javascript">
-    function AddFunctionAlty(value,row,index){
-        return[
-          '<button id="TableEditor" type="button" class="btn btn-info">编辑</button> &nbsp;&nbsp;  ',
-          '<button id="TableDelete" type="button" class="btn btn-danger">删除</button>'
-        ].join("")
-      }
-      window.operateEvents ={
-        "click TableEditor":function(e,value,row,index){
 
-        },
-        "click #TableDelete" : function(e,value,row,index){
+        var wb = [];
+        var myopenId = $.session.get("openId");
+        var booleans = false;
+        $(function () {
             $.ajax({
-                url:'/daleteWeiCount',
-                type:'post',
-                data:{userId:row.userId,userName:row.userName},
-                dataType:'JSON'
+                url:'/searchFu',
+                type:'get',
+                data:{openid:'123'},
+                dataType:'JSON',
+                success:function (data) {
+                    var div = "";
+                    for (var i = 0; i < data.number; i++){
+                        div = div + "<div class=\"container\" id='weiboId"+data.weiboList[i].weiboId+"' >"
+                            +" <img src=\"./images/delete1.ico\" class=\"delete\" onclick=\"deleteWeibo("+data.weiboList[i].weiboId+")\"/>"
+                            +"<div class=\"content\" ondblclick=\"editWeiboFU("+data.weiboList[i].weiboId+")\"><div class=\"row\" >"
+                            +"<div class=\"col-xs-2\">账号:</div><div class=\"col-xs-10\" id='"+data.weiboList[i].weiboId+"--"+"'>"+data.weiboList[i].userName+"</div></div><div class=\"row\">"
+                            +"<div class=\"col-xs-2\">密码:</div><div class=\"col-xs-10\">********</div>"
+                            +"</div></div></div> </br></br>";
+                        wb[i] = data.weiboList[i].weiboId;
+                    }
+                    document.getElementById("allCount").innerHTML = div;
+                }
             });
-          $(this).parent().parent().remove();
-        }
-      }
-    </script>
-    <script type="text/javascript">
-    $(function () {
-	     //1.初始化Table
-	      var oTable = new TableInit();
-	    oTable.Init();
-	
-	  });
-	var TableInit = function () {
-	var oTableInit = new Object();
-	//初始化Table
-	oTableInit.Init = function () {
-	 $('#table').bootstrapTable({
-		  url:'/searchFu',
-		  method:'get',
-		  striped:true,
-		  cache: false,
-		  pagination: true, 
-		  sortable: false,
-		  sortOrder: "asc",
-		  queryParamsType : "", 
-		  queryParams: oTableInit.queryParams,
-		  sidePagination: "server",
-		  pageNumber:1,
-		  pageSize: 5, 
-		  pageList: [5,10,15],
-		  search: true,
-		  strictSearch: true,
-		  showColumns: true,  
-		  showRefresh: true,
-		  minimumCountColumns: 2, 
-		  clickToSelect: true, 
-		  showToggle:true,   
-		  cardView: false,
-		  detailView: false,  
-		  
-		    
-		
-		    
-	columns: [{
-	   field: 'userName',
-	   title: '账号',
-	   align:'center'
-	}, {
-	   field: 'password',
-	   title: '密码',
-	   align:'center'
-	},{
-	 field:'button',
-	 title:'操作',
-	 align:'center',
-	 events: operateEvents,
-	 formatter:AddFunctionAlty,
-	}
-	],
-	
-	}); 
-	}
-	
-	//得到查询的参数
-	oTableInit.queryParams = function (params) {
-	      var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-	   		pageSize: params.pageSize,   //页面大小
-	           offset: params.pageNumber,  //页码
-	           openid:'ugijk',
-	           //search:params.search
-	      };
-	      return temp;
-	   };
-	  return oTableInit;
-	
-	};
-	$('#search_btn').click(function(){
-	 $('#mytab').bootstrapTable('refresh', {url: '../index.php/admin/index/userManagement'});
-	})
-	
-	
-	
-	$("#btn1").click(function(){
-	 $.ajax({
-		  	url:'/addWeiboFu',
-			type:'post',
-			dataType:'json',
-			data:{'userName':yidangohuobi,'Password':erdangohuobi,'openId':sandangohuobi},
-			success:function(data){
-				if(data){
-					alert("编辑成功!");
-				}else{
-					alert("编辑失败!");
-				}
-			}
-	 })
-	 alert("1111");
-	})
-    </script>
+        });
 
+        function deleteWeibo(value) {
+            document.getElementById('weiboId'+value).style.display='none';
+            for (var i = 0;i < wb.length;i++){
+                if (wb[i] == value)
+                    wb[i] = -1;
+            }
+            $.ajax({
+                url:'/deleteWeiCount',
+                type:'get',
+                data:{weiboId:value,openId:myopenId},
+                dataType:'JSON',
+                success:function (data) {
+                    alert("删除成功！");
+                }
+            });
+        }
+
+
+        function editWeiboFU(value) {
+            booleans = true;
+            var count = document.getElementById(value+"--").innerHTML;
+            var pass = "%11111111";
+            $.session.set("wbId",value);
+            $("#aeUsername").val(count);
+            $("#aePassword").val(-pass);
+            $("#myModal").modal('show');
+        }
+
+        function cancel() {
+            booleans = false;
+            $("#aeUsername").val("");
+            $("#aePassword").val("");
+            $.session.remove("wbId");
+        }
+        function  aeWeiboFu() {
+            var count = $("#aeUsername").val();
+            var pass = $("#aePassword").val();
+            if (booleans){
+                $.ajax({
+                    url:'/editWeibo',
+                    type:'post',
+                    data:{weiboId:$.session.get('wbId'),userName:count,Password:pass},
+                    dataType:'json',
+                    success:function () {
+                        alert("编辑成功！");
+                        window.location.reload();
+
+                    }
+                });
+                $("#aeUsername").val("");
+                $("#aePassword").val("");
+            }else{
+                $.ajax({
+                    url:'/addWeiboFu',
+                    type:'post',
+                    data:{userName:count,Password:pass,openId:myopenId},
+                    dataType:'json',
+                    success:function () {
+                        alert("添加成功");
+                        window.location.reload();
+
+                    }
+                });
+                $("#aeUsername").val("");
+                $("#aePassword").val("");
+            }
+
+            booleans = false;
+            $("#myModal").modal('hide');
+        }
+        
+    </script>
   </body>
 
 

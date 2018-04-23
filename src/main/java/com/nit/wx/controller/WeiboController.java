@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 public class WeiboController {
 
@@ -15,24 +17,28 @@ public class WeiboController {
     @Autowired
     WeiboService weiboService;
 
-    @RequestMapping("/daleteWeiCount")
-    public void daleteWeiCount(String userId,String userName){
-        weiboService.daleteWeiCount(userId,userName);
+    @RequestMapping("/deleteWeiCount")
+    public void daleteWeiCount(String weiboId,String openId){
+        weiboService.daleteWeiCount(weiboId,openId);
     }
 
 
     @RequestMapping("/searchFu")
-    public JSONObject searchFu(String pageSize,String offset ,String openid){
-        return weiboService.searchFu(pageSize,offset,openid);
+    public Map<String, Object> searchFu(String openid){
+        return weiboService.searchFu(openid);
     }
 
     @RequestMapping("/editWeibo")
-    public void editWeibo(String weiboId,String userName,String Password,String openId){
+    public void editWeibo(String weiboId,String userName,String Password){
+        System.out.println(userName+"====="+Password+"==========="+weiboId);
         weiboService.editWeibo(weiboId,userName,Password);
     }
 
     @RequestMapping("/addWeiboFu")
-    public void addWeiboFu(String weiboId,String userName,String Password,String openId){
-
+    public void addWeiboFu(String userName,String Password,String openId){
+        System.out.println(userName+"====="+Password+"==========="+openId);
+        weiboService.addWeiboFu(userName,Password,openId);
     }
+
+
 }
