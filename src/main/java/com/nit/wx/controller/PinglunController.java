@@ -15,7 +15,7 @@ public class PinglunController {
 
 
     @RequestMapping("/addPinglun")
-    public void addPinglun(String openId,String content,String ZanNumber,String keyWord,String contentFuId){
-
+    public void addPinglun(String openId,String weibocode,String weibopwd,String content,String ZanNumber){
+    	pinglunService.addPinglun(openId,weibocode,weibopwd,content,ZanNumber);
     }
 }

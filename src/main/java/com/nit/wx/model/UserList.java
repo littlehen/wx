@@ -27,8 +27,7 @@ public class UserList  implements Serializable{
 
     private String cmoney;
 
-    @Column(name = "cleankey")
-    private String cleanKey;
+    private String cleankey;
 
     private Date cleanStarttime;
 
@@ -99,12 +98,12 @@ public class UserList  implements Serializable{
         this.cmoney = cmoney;
     }
 
-    public String getCleanKey() {
-        return cleanKey;
+    public String getCleankey() {
+        return cleankey;
     }
 
-    public void setCleanKey(String cleanKey) {
-        this.cleanKey = cleanKey;
+    public void setCleankey(String cleankey) {
+        this.cleankey = cleankey;
     }
 
     public Date getCleanStarttime() {

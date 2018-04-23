@@ -35,7 +35,7 @@
           <!-- Text input-->
           <label class="control-label col-sm-2" for="input01">微博主账号</label>
           <div class=" col-sm-10">
-            <input type="text" placeholder="微博账号" class="form-control input-xlarge">
+            <input type="text" placeholder="微博账号" class="form-control input-xlarge" id="weibocode">
             <p class="help-block"></p>
           </div>
         </div>
@@ -45,7 +45,7 @@
           <!-- Search input-->
           <label class="control-label col-sm-2">账号密码</label>
           <div class=" col-sm-10">
-            <input type="text" placeholder="密码" class="form-control input-xlarge search-query">
+            <input type="text" placeholder="密码" class="form-control input-xlarge search-query" id="weibopwd">
             <p class="help-block"></p>
           </div>
     </div>
@@ -56,7 +56,7 @@
           <label class="control-label col-sm-2">评论内容</label>
           <div class="controls">
             <div class="col-sm-10">
-                <textarea rows="3" placeholder="请用逗号隔开" class="form-control" ></textarea>
+                <textarea rows="3" placeholder="请用逗号隔开" class="form-control" id="plcontent"></textarea>
             </div>
           </div>
         </div>
@@ -122,7 +122,8 @@
       <label class="control-label col-sm-2">点赞数量</label>
       <div class="controls">
             <div class="col-sm-10">
-              <select class="form-control input-sm">
+              <select class="form-control input-sm" id="sele">
+        <option>0</option>
         <option>1</option>
         <option>2</option>
         <option>3</option>
@@ -137,7 +138,7 @@
 	      	<p>评论下的回复:</p>
 	      </label>
 	      <br />
-	      <a href="./keyword.html" >&nbsp;&nbsp;&nbsp;&nbsp;去设置 </a>
+	      <a href="/keyword.html" >&nbsp;&nbsp;&nbsp;&nbsp;去设置 </a>
 	   </div>
 
     <div class="control-group" style="margin-top: 10px ;margin-left: 0px">
@@ -202,12 +203,24 @@
 
     <script type="text/javascript">
     $(function(){
-    	$("#submitId").click(
-    			function(){
-    				$.ajax({
-    					type:"POST",
-    					datatype:'text'
-    				}),
+    	$("#submitId").click(function(){
+			var options=$("#sele option:selected");  
+    		$.ajax({
+                url:'/addPinglun',
+                type:'post',
+                data:{'openId':$.session.get("openId"),'weibocode':$("#weibocode")。val(),'weibopwd':$('#weibopwd').val(),'content':$('#plcontent').val(),'ZanNumber':options.val()},
+                dataType:'JSON',
+	       		success:function(data){
+	   				if(data){
+	   					alert("提交成功!");
+	   					refresh();
+	   			//	  $('#myModal1').modal('toggle');
+	   				}else{
+	   					alert("提交失败!");
+	   				}
+	   			}
+            });
+    				
     				
     			}
     	)
