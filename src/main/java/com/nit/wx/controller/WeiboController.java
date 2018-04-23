@@ -33,7 +33,7 @@ public class WeiboController {
         System.out.println(userName+"====="+Password+"==========="+weiboId);
         weiboService.editWeibo(weiboId,userName,Password);
     }
-
+ 
     @RequestMapping("/addWeiboFu")
     public void addWeiboFu(String userName,String Password,String openId){
         System.out.println(userName+"====="+Password+"==========="+openId);
