@@ -18,4 +18,10 @@ public class PinglunController {
     public void addPinglun(String openId,String weibocode,String weibopwd,String content,String ZanNumber){
     	pinglunService.addPinglun(openId,weibocode,weibopwd,content,ZanNumber);
     }
+
+
+    @RequestMapping("/pinglunGongneng")
+    public void pinglunGongneng(){
+
+    }
 }
