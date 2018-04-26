@@ -19,9 +19,4 @@ public class PinglunController {
     	pinglunService.addPinglun(openId,weibocode,weibopwd,content,ZanNumber);
     }
 
-
-    @RequestMapping("/pinglunGongneng")
-    public void pinglunGongneng(){
-
-    }
 }
