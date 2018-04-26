@@ -5,14 +5,9 @@ import com.nit.wx.dao.UserListDao;
 import com.nit.wx.dao.WeiboDao;
 import com.nit.wx.model.UserList;
 import com.nit.wx.model.Weibo;
-import net.sf.json.JSONObject;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.PageFormat;
-import java.awt.print.Pageable;
-import java.awt.print.Printable;
 import java.util.*;
 
 @Service
@@ -23,6 +18,15 @@ public class WeiboService {
 
     @Autowired
     UserListDao userListDao;
+
+
+    //用户基础信息
+    public Map<String,Object> myInfo(String openId){
+        Map<String,Object> map = new HashMap<>();
+        UserList user = userListDao.findByOpenid(openId);
+
+        return map;
+    }
 
 
     //删除辅助号

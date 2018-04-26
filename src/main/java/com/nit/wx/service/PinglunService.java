@@ -12,6 +12,9 @@ import com.nit.wx.model.Weibo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class PinglunService {
 
@@ -62,5 +65,22 @@ public class PinglunService {
         contentkey.setContentId(contentId);
         contentkeyDao.save(contentkey);
     }
+
+
+    public Map<String,Object> baseInfo(String openId){
+        Map<String,Object> map = new HashMap<>();
+        UserList user = new UserList();
+        user = userListDao.findByOpenid(openId);
+        Weibo weibo = weiboDao.findByFuhaoNumberAndUserId(0,user.getUserid());
+        if ("".equals(weibo.getUserName())){
+            map.put("state",false);
+        }
+        else {
+            map.put("state",true);
+            map.put("weibo",weibo);
+        }
+        return map;
+    }
+
 }
 

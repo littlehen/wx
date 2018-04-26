@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 @RestController
 public class PinglunController {
@@ -17,6 +18,11 @@ public class PinglunController {
     @RequestMapping("/addPinglun")
     public void addPinglun(String openId,String weibocode,String weibopwd,String content,String ZanNumber){
     	pinglunService.addPinglun(openId,weibocode,weibopwd,content,ZanNumber);
+    }
+
+    @RequestMapping("/baseInfo")
+    public Map<String,Object>  baseInfo(String openId){
+        return pinglunService.baseInfo(openId);
     }
 
 }

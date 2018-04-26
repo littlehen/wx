@@ -33,13 +33,13 @@
 		<a href="javascript:void(0)https://m.fang.com/passport/login.aspx?burl=%2F%2Fm.fang.com%2Fmy%2F%3Fc%3Dmycenter%26a%3Dindex%26city%3Dwuhan" id="ahtm" class="login"></a>
         <nav>
             <ul class="flexBox box">
-                <li class="mymoney"><a id="wapmysf_B01_02" href="javascript:void(0)//m.fang.com/my/?c=my&a=payIndex&city=wuhan"><span></span><p>我的钱</p></a>
+                <li class="mymoney"><a id="wapmysf_B01_02" href="javascript:void(0)//m.fang.com/my/?c=my&a=payIndex&city=wuhan"><p>我的钱:</p><span id="myMoney"></span><span>元</span></a>
                 </li>
-                <li class="redBag"><a href="javascript:void(0)http://m.fang.com/house/ec/RedBag0910/list?v=" class="colorW"><span></span><p>红包</p></a>
+                <li class="redBag"><a href="javascript:void(0)http://m.fang.com/house/ec/RedBag0910/list?v=" class="colorW"><p>红包</p></a>
                 </li>
                 <li class="coupons"><a id="wapmysf_B01_03" href="javascript:void(0)http://coupon.fang.com/m/MyCoupon.html?From=MyMoney&City=wuhan"><span></span><p>优惠券</p></a>
                 </li>
-                <li class="integral"><a id="wapmysf_B01_04" href="javascript:void(0)https://mstore.fang.com/index.html"><span></span><p>积分</p></a>
+                <li class="integral"><a id="wapmysf_B01_04" href="javascript:void(0)https://mstore.fang.com/index.html"><span></span><p>积分:<span id="myGrade"></span></p></a>
                 </li>
             </ul>
         </nav>
@@ -72,18 +72,27 @@
 	<script src="js/jquery-1.9.1.js"></script>
     <script src="js/jquerysession.js"></script>
     <script>
-	var url = location.search; //获取url中"?"符后的字串    
-	if (url.indexOf("?") != -1) {   
-	var str = url.substr(1);   
-		strs = str.split("&");
-		var nickname = strs[0];
-		var headimgurl = strs[1];
-		$.session.set("openId",strs[2]);
-		$("#headimg").attr("src",headimgurl);
-		document.getElementById("ahtm").innerHTML="用户昵称:"+nickname;
+    $(function () {
+        var url = location.search; //获取url中"?"符后的字串
+        if (url.indexOf("?") != -1) {
+        var str = url.substr(1);
+            strs = str.split("&");
+            var nickname = strs[0];
+            var headimgurl = strs[1];
+            $.session.set("openId",strs[2]);
+            $("#headimg").attr("src",headimgurl);
+            document.getElementById("ahtm").innerHTML="用户昵称:"+nickname;
+        }
+        $.ajax({
+            url:'/myInfo',
+            type:'post',
+            data:{'openId':$.session.get('openId')},
+            dataType:'JSON',
+            success:function (data) {
 
-			
-	}
+            }
+        });
+    });
 	</script>
 </body>
 </html>

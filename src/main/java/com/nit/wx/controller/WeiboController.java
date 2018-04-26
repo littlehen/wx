@@ -2,8 +2,6 @@ package com.nit.wx.controller;
 
 
 import com.nit.wx.service.WeiboService;
-import net.sf.json.JSONObject;
-import org.dom4j.io.SAXReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +14,12 @@ public class WeiboController {
 
     @Autowired
     WeiboService weiboService;
+
+
+    @RequestMapping("/myInfo")
+    public Map<String,Object> myInfo(String openId){
+        return weiboService.myInfo(openId);
+    }
 
     @RequestMapping("/deleteWeiCount")
     public void daleteWeiCount(String weiboId,String openId){
@@ -39,6 +43,5 @@ public class WeiboController {
         System.out.println(userName+"====="+Password+"==========="+openId);
         weiboService.addWeiboFu(userName,Password,openId);
     }
-
 
 }

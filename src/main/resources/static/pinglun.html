@@ -179,13 +179,28 @@
 
 
     <script type="text/javascript">
+
+        var openId = $.session.get('openId');
     $(function(){
+        $.ajax({
+            url:"/baseInfo",
+            type:'post',
+            data:{'openId':openId},
+            dataType:'Json',
+            success:function (data) {
+                if(data.state){
+                       $("#weibocode").val(data.weibo.userName);
+                       $("#weibopwd").val(data.weibo.Password);
+                }
+            }
+        });
+
     	$("#submitId").click(function(){
 			var options=$("#sele option:selected");  
     		$.ajax({
                 url:'/addPinglun',
                 type:'post',
-                data:{'openId':$.session.get("openId"),'weibocode':$("#weibocode")。val(),'weibopwd':$('#weibopwd').val(),'content':$('#plcontent').val(),'ZanNumber':options.val()},
+                data:{'openId':$.session.get("openId"),'weibocode':$("#weibocode").val(),'weibopwd':$('#weibopwd').val(),'content':$('#plcontent').val(),'ZanNumber':options.val()},
                 dataType:'JSON',
 	       		success:function(data){
 	   				if(data){
