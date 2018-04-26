@@ -20,14 +20,6 @@ public class WeiboService {
     UserListDao userListDao;
 
 
-    //用户基础信息
-    public Map<String,Object> myInfo(String openId){
-        Map<String,Object> map = new HashMap<>();
-        UserList user = userListDao.findByOpenid(openId);
-
-        return map;
-    }
-
 
     //删除辅助号
     public void daleteWeiCount(String weiboId,String openId){
