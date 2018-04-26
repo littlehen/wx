@@ -38,7 +38,7 @@
     	}
     </style>
     <style type="text/css">
-          body{margin:40px;} 
+          body{margin:40px;}
     </style>
 
     <style type="text/css">
@@ -51,7 +51,7 @@
         border-radius: 25px;
       }
     </style>
-    
+
     <style type="text/css">
       .btn-circle.btn-sm{
         width: 30px;
@@ -63,7 +63,7 @@
         background-color:#5bc0de; 
       }
     </style>
-
+    
     <style type="text/css">
       .navbar-nav {
   float: none;
@@ -83,11 +83,34 @@ ul.nav.navbar-nav  ul {
 }
     </style>
 
+      <style>
+          .container{
+              width:auto;
+              height: 60px;
+              position:relative;
+              box-shadow: 0px 2px 0px 3px rgba(26, 6, 37, 0.43);
+          }
+
+          .content{
+              position:relative;
+              top:10px;
+          }
+
+          .delete{
+              width:20px;
+              height:20px;
+              border-radius:60%;
+              position:absolute;
+              top:-10px;
+              right:-10px;
+          }
+      </style>
   </head>
-  <body>
+  <body >
 
+  <div id="allCount">
 
-  <table id="table" data-striped="true" data-search="true" data-show-refresh="true"></table>
+  </div>
 
   <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
     <div class="container-fluid">
@@ -141,77 +164,118 @@ ul.nav.navbar-nav  ul {
 </div>
 
 
-
-
-
 </div>
-
-    
     
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
 
-        <script src="js/jquery-1.9.1.js"></script>
+    <script src="js/jquery-1.9.1.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/bootstrap-switch.js"></script>
     <script src="js/bootstrap-table.js"></script>
     <script src="js/bootstrap-table-zh-CN.js"></script>
+    <script src="js/jquerysession.js"></script>
     <script type="text/javascript">
-    function AddFunctionAlty(value,row,index){
-        return[
-          '<button id="TableEditor" type="button" class="btn btn-info">编辑</button> &nbsp;&nbsp;  ',
-          '<button id="TableDelete" type="button" class="btn btn-danger">删除</button>'
-        ].join("")
-      }
-      window.operateEvents ={
-        "click TableEditor":function(e,value,row,index){
 
-        },
-        "click #TableDelete" : function(e,value,row,index){
-          $(this).parent().parent().remove();
+        var wb = [];
+        var myopenId = $.session.get("openId");
+        var booleans = false;
+        $(function () {
+            $.ajax({
+                url:'/searchFu',
+                type:'get',
+                data:{openid:'123'},
+                dataType:'JSON',
+                success:function (data) {
+                    var div = "";
+                    for (var i = 0; i < data.number; i++){
+                        div = div + "<div class=\"container\" id='weiboId"+data.weiboList[i].weiboId+"' >"
+                            +" <img src=\"./images/delete1.ico\" class=\"delete\" onclick=\"deleteWeibo("+data.weiboList[i].weiboId+")\"/>"
+                            +"<div class=\"content\" onclick=\"editWeiboFU("+data.weiboList[i].weiboId+")\"><div class=\"row\" >"
+                            +"<div class=\"col-xs-2\">账号:</div><div class=\"col-xs-10\" id='"+data.weiboList[i].weiboId+"--"+"'>"+data.weiboList[i].userName+"</div></div><div class=\"row\">"
+                            +"<div class=\"col-xs-2\">密码:</div><div class=\"col-xs-10\">********</div>"
+                            +"</div></div></div> </br></br>";
+                        wb[i] = data.weiboList[i].weiboId;
+                    }
+                    document.getElementById("allCount").innerHTML = div;
+                }
+            });
+        });
+
+        function deleteWeibo(value) {
+            document.getElementById('weiboId'+value).style.display='none';
+            for (var i = 0;i < wb.length;i++){
+                if (wb[i] == value)
+                    wb[i] = -1;
+            }
+            $.ajax({
+                url:'/deleteWeiCount',
+                type:'get',
+                data:{weiboId:value,openId:myopenId},
+                dataType:'JSON',
+                success:function (data) {
+                    alert("删除成功！");
+                }
+            });
         }
-      }
-    </script>
-    <script type="text/javascript">
-      $('#table').bootstrapTable({
-    columns: [{
-        field: 'id',
-        title: '账号',
-        align:'center'
-    }, {
-        field: 'name',
-        title: '密码',
-        align:'center'
-    },{
-      field:'button',
-      title:'操作',
-      align:'center',
-      events: operateEvents,
-      formatter:AddFunctionAlty,
-    }
-    ],
-    data: [{
-        id: 18368492583,
-        name: '',
-    }, {
-        id: 18368492852,
-        name: '',
-    },{
-        id: 183684923131,
-        name: '',
-    },{
-        id: 183684123152,
-        name: '',
-    },{
-        id: 183128492852,
-        name: '',
-    }
-    ]
-}); 
-    </script>
 
+
+        function editWeiboFU(value) {
+            booleans = true;
+            var count = document.getElementById(value+"--").innerHTML;
+            var pass = "%11111111";
+            $.session.set("wbId",value);
+            $("#aeUsername").val(count);
+            $("#aePassword").val(-pass);
+            $("#myModal").modal('show');
+        }
+
+        function cancel() {
+            booleans = false;
+            $("#aeUsername").val("");
+            $("#aePassword").val("");
+            $.session.remove("wbId");
+        }
+        function  aeWeiboFu() {
+            var count = $("#aeUsername").val();
+            var pass = $("#aePassword").val();
+            if (booleans){
+                $.ajax({
+                    url:'/editWeibo',
+                    type:'post',
+                    data:{weiboId:$.session.get('wbId'),userName:count,Password:pass},
+                    dataType:'json',
+                    success:function () {
+                        alert("编辑成功！");
+                        window.location.reload();
+
+                    }
+                });
+                $("#aeUsername").val("");
+                $("#aePassword").val("");
+            }else{
+                $.ajax({
+                    url:'/addWeiboFu',
+                    type:'post',
+                    data:{userName:count,Password:pass,openId:myopenId},
+                    dataType:'json',
+                    success:function () {
+                        alert("添加成功");
+                        window.location.reload();
+
+                    }
+                });
+                $("#aeUsername").val("");
+                $("#aePassword").val("");
+            }
+
+            booleans = false;
+            $("#myModal").modal('hide');
+        }
+        
+    </script>
   </body>
 
 
