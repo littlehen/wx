@@ -170,7 +170,7 @@ ul.nav.navbar-nav  ul {
                     for (var i = 0; i < data.number; i++){
                         div = div + "<div class=\"container\" id='weiboId"+data.weiboList[i].weiboId+"' >"
                             +" <img src=\"./images/delete1.ico\" class=\"delete\" onclick=\"deleteWeibo("+data.weiboList[i].weiboId+")\"/>"
-                            +"<div class=\"content\" ondblclick=\"editWeiboFU("+data.weiboList[i].weiboId+")\"><div class=\"row\" >"
+                            +"<div class=\"content\" onclick=\"editWeiboFU("+data.weiboList[i].weiboId+")\"><div class=\"row\" >"
                             +"<div class=\"col-xs-2\">账号:</div><div class=\"col-xs-10\" id='"+data.weiboList[i].weiboId+"--"+"'>"+data.weiboList[i].userName+"</div></div><div class=\"row\">"
                             +"<div class=\"col-xs-2\">密码:</div><div class=\"col-xs-10\">********</div>"
                             +"</div></div></div> </br></br>";

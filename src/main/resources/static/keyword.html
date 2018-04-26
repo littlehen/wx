@@ -107,7 +107,12 @@ ul.nav.navbar-nav  ul {
       </style>
   </head>
   <body >
-
+  <div>
+	  <a href = "/pinglun.html">
+		<button   type="button" class="btn btn-primary">返回</button>
+	 </a>
+	<br></br>
+	</div>
   <div id="allCount">
 
   </div>
@@ -135,7 +140,7 @@ ul.nav.navbar-nav  ul {
         <div class="row">
           <div class=" col-sm-10">
             <input type="text" placeholder="请输入关键词"  style="width:280px;">
-            <button type="button" class="btn btn-success btn-circle btn-sm" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus" style="font-size:20px;"></i></button>
+            <!-- <button type="button" class="btn btn-success btn-circle btn-sm" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus" style="font-size:20px;"></i></button> -->
             <p class="help-block"></p>
           </div>
         </div>
@@ -143,7 +148,7 @@ ul.nav.navbar-nav  ul {
 	        <label class="control-label col-sm-2" for="input01">辅助评论:</label>
 	        <div class="controls">
             	<div class="col-sm-10">
-                <textarea type="" class="form-control" rows="3"> </textarea>
+                <textarea  type="" class="form-control" rows="3" placeholder="如果有多条评论，请用 # 分隔开。一个辅助号使用一条评论"></textarea>
             </div>
           </div>
         </div>
@@ -151,7 +156,7 @@ ul.nav.navbar-nav  ul {
 	        <label class="control-label col-sm-2" for="input01">主账号回复:</label>
 	        <div class="controls">
             	<div class="col-sm-10">
-                <textarea type="" class="form-control" rows="3"> </textarea>
+                <textarea type="" class="form-control" rows="3" placeholder="如果有多条回复语，请用 # 分隔开。一条回复语，回复一个辅助号"></textarea>
             </div>
           </div>
         </div>
@@ -184,7 +189,7 @@ ul.nav.navbar-nav  ul {
         var booleans = false;
         $(function () {
             $.ajax({
-                url:'/searchFu',
+                url:'/searchKeyword',
                 type:'get',
                 data:{openid:'123'},
                 dataType:'JSON',
@@ -192,11 +197,14 @@ ul.nav.navbar-nav  ul {
                     var div = "";
                     for (var i = 0; i < data.number; i++){
                         div = div + "<div class=\"container\" id='weiboId"+data.weiboList[i].weiboId+"' >"
-                            +" <img src=\"./images/delete1.ico\" class=\"delete\" onclick=\"deleteWeibo("+data.weiboList[i].weiboId+")\"/>"
-                            +"<div class=\"content\" onclick=\"editWeiboFU("+data.weiboList[i].weiboId+")\"><div class=\"row\" >"
-                            +"<div class=\"col-xs-2\">账号:</div><div class=\"col-xs-10\" id='"+data.weiboList[i].weiboId+"--"+"'>"+data.weiboList[i].userName+"</div></div><div class=\"row\">"
-                            +"<div class=\"col-xs-2\">密码:</div><div class=\"col-xs-10\">********</div>"
-                            +"</div></div></div> </br></br>";
+                        +" <img src=\"./images/delete1.ico\" class=\"delete\" onclick=\"deleteWeibo("+data.weiboList[i].weiboId+")\"/>"
+                        +"<div class=\"content\" onclick=\"editWeiboFU("+data.weiboList[i].weiboId+")\"><div class=\"row\" >"
+                        +"<div class=\"col-xs-2\">关键词:</div><div class=\"col-xs-10\" id='"+data.weiboList[i].weiboId+"--"+"'>"+data.weiboList[i].userName+"</div></div><div class=\"row\">"
+                        +"<div class=\"col-xs-2\">辅助评论:</div><div class=\"col-xs-10\" 
+						id='"+data.weiboList[i].weiboId+"--"+"'>"+data.weiboList[i].userName+"</div></div><div class=\"row\">"
+                        +"<div class=\"col-xs-2\">主账号回复:</div><div class=\"col-xs-10\"
+						id='"+data.weiboList[i].weiboId+"--"+"'>"+data.weiboList[i].userName+"</div></div>
+                        +"</div></div></div> </br></br>";
                         wb[i] = data.weiboList[i].weiboId;
                     }
                     document.getElementById("allCount").innerHTML = div;
