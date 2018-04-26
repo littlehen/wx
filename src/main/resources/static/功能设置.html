@@ -74,7 +74,7 @@
   		  <label class="control-label col-xs-6" for="">遥控频率:</label>
           <div class="controls">
                 <div class="col-sm-6">
-                  <select class="form-control input-sm">
+                  <select class="form-control input-sm" id="sele">
             <option>1</option>
             <option>2</option>
             <option>3</option>
@@ -91,7 +91,7 @@
   		  <label class="control-label col-xs-6" for="">捡到一条后休息:</label>
           <div class="controls">
                 <div class="col-sm-6">
-                  <select class="form-control input-sm">
+                  <select class="form-control input-sm" id="sele1">
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -109,7 +109,7 @@
   		  <label class="control-label col-xs-6" for="">几秒后开始回复点赞:</label>
           <div class="controls">
                 <div class="col-sm-6">
-                  <select class="form-control input-sm">
+                  <select class="form-control input-sm" id="sele2">
             <option>1</option>
             <option>2</option>
             <option>3</option>
@@ -127,7 +127,7 @@
   		  <label class="control-label col-xs-6" for="">只抢评论量少于:</label>
           <div class="controls">
                 <div class="col-sm-6">
-                  <select class="form-control input-sm">
+                  <select class="form-control input-sm" id="sele3">
             <option>1</option>
             <option>2</option>
             <option>3</option>
@@ -142,7 +142,7 @@
   	<div class="control-group">
           <div class="controls">
                 <div class="col-xs-12">
-                  <select class="form-control input-lg">
+                  <select class="form-control input-lg" id="sele4">
             <option>只抢转发原创</option>
             <option>只抢原创</option>
             <option>只抢转发</option></select>
@@ -191,11 +191,9 @@
     var state = 0;
       $('input[name="status"]').bootstrapSwitch({ onSwitchChange:function(){
     	  if(state == 0){	
-    	 	 alert("111+开");
     	 	 state = 1;
     	  }
     	  else if(state == 1){
-    		  alert("0000+关 ");
     		  state = 0 ;
     	  }
       $("div[id=1]").toggle();
@@ -210,16 +208,37 @@
 })
     </script>
     <script type="text/javascript">
+    var state1 = 0;
       $('input[name="status1"]').bootstrapSwitch({ onSwitchChange:function(){
+    	  if(state1 == 0){	
+    		  state1 = 1;
+     	  }
+     	  else if(state1 == 1){
+     		 state1 = 0 ;
+     	  }
       $("div[id=2]").toggle();
       } }); 
     </script>
     <script type="text/javascript">
 	function  gongneng() {
-		
-		alert( $("mySwitch").val());
-		alert( $("input[name='status1']").val());
-	        }
+		var options=$("#sele option:selected");  
+		var options1=$("#sele1 option:selected");  
+		var options2=$("#sele2 option:selected");  
+		var options3=$("#sele3 option:selected");  
+		var options4=$("#sele4 option:selected");  
+		 $.ajax({
+             url:'/Gongneng',
+             type:'post',
+             data:{'openId':$.session.get('openId'),'plzs':state,'bcfPl':state1,'yp':options.val(),'jx':options1.val(),'hd':options2.val(),'sy':options3.val(),'yz':options4.val()},
+             dataType:'JSON',
+             success:function (data) {
+            	 if(data.state)
+                 	alert("提交成功！");
+            	 else
+            		 alert("提交失败");
+             }
+         });
+	   }
 </script>
   </body>
 
