@@ -7,12 +7,17 @@ import com.nit.wx.dao.UserListDao;
 import com.nit.wx.model.Functions;
 import com.nit.wx.model.Pay;
 import com.nit.wx.model.UserList;
+import com.nit.wx.util.CVTicketUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.swing.plaf.basic.BasicScrollPaneUI;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,5 +66,32 @@ public class FunctionsService {
         else
             map.put("state",false);
         return map;
+    }
+
+
+    public void payInfo(HttpServletRequest request , HttpServletResponse response) throws Exception{
+        StringBuffer sb = new StringBuffer();
+        BufferedReader in = request.getReader();
+        String line;
+        while ((line = in.readLine()) != null)
+            sb.append(line);
+        String xml = sb.toString();
+        Map<String,String> map = CVTicketUtil.readStringXmlOut(xml);
+        if ("SUCCESS".equals(map.get("return_code"))){
+            String openId = map.get("openid");
+            UserList user = userDao.findByOpenid(openId);
+            String WechatPayCode = map.get("out_trade_no");
+            String time = map.get("time_end");
+            String money = map.get("cash_fee");
+            Pay pay = new Pay();
+            pay.setMoney(money);
+            pay.setTime(time);
+            pay.setUserId(user.getUserid());
+            pay.setWechatPayCode(WechatPayCode);
+            payDao.save(pay);
+            PrintWriter pw = response.getWriter();
+            pw.write("success");
+            pw.flush();
+        }
     }
 }
