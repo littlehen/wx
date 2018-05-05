@@ -30,4 +30,9 @@ public class PinglunController {
     public Map<String, Object> keyWord(String openId ,String keyword ,String FP , String ZH){
         return pinglunService.keyWord(openId,keyword,FP,ZH);
     }
+
+    @RequestMapping("/searchKeyword")
+    public Map<String,Object> searchKeyword(String openid){
+        return pinglunService.searchKeyword(openid);
+    }
 }

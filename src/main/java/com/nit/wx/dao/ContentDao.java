@@ -9,4 +9,7 @@ public interface ContentDao extends JpaRepository<Content,Integer> {
 
     @Query(nativeQuery = true,value = "SELECT MAX(ContentId) contentID FROM content")
     int findByContentId();
+
+
+    Content findByContentId(Integer contentId);
 }

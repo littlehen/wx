@@ -12,8 +12,10 @@ import com.nit.wx.model.Weibo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.rmi.MarshalledObject;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -112,7 +114,7 @@ public class PinglunService {
             contentkeyDao.save(contentkey);
             Content content = new Content();
             content.setUserId(user.getUserid());
-            content.setContent(FP+"，"+Zh);
+            content.setContent(FP+"$"+Zh);
             contentDao.save(content);
 
             user.setCmoney(Integer.parseInt(user.getCmoney())-50 +"");
@@ -121,6 +123,26 @@ public class PinglunService {
             map.put("YON",false);
         return map;
 
+    }
+
+
+    public Map<String,Object> searchKeyword(String openid){
+        Map<String,Object> map = new HashMap<>();
+        UserList user = userListDao.findByOpenid(openid);
+        List<Contentkey> contentkeys = contentkeyDao.findlist(user.getUserid());
+        List<Contentkey> list = null;
+        if (contentkeys.size() != 0){
+            for (Contentkey contentkey : contentkeys){
+                    Content content = contentDao.findByContentId(Integer.parseInt(contentkey.getContentId()));
+                    String[] ls = content.getContent().split("$");
+                    contentkey.setContentId(ls[0]);
+                    contentkey.setContentFuId(ls[1]);
+                    list.add(contentkey);
+            }
+        }
+        if (list!=null)
+            map.put("contentList",list);
+        return map;
     }
 }
 
