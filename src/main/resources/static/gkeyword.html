@@ -188,7 +188,7 @@
 <script src="js/jquerysession.js"></script>
 <script type="text/javascript">
 
-    var wb = [];
+    var kw = [];
     var myopenId = $.session.get("openId");
     var booleans = false;
     $(function () {
@@ -199,26 +199,26 @@
             dataType:'JSON',
             success:function (data) {
                 var div = "";
-                for (var i = 0; i < data.number; i++){
-                    div = div + "<div class=\"container\" id='weiboId"+data.weiboList[i].weiboId+"' >"
-                        +" <img src=\"./images/delete1.ico\" class=\"delete\" onclick=\"deleteWeibo("+data.weiboList[i].weiboId+")\"/>"
-                        +"<div class=\"content\" onclick=\"editWeiboFU("+data.weiboList[i].weiboId+")\"><div class=\"row\" >"
-                        +"<div class=\"col-xs-2\">关键词:</div><div class=\"col-xs-10\" id='"+data.weiboList[i].weiboId+"--"+"'>"+data.weiboList[i].userName+"</div></div><div class=\"row\" >"
-                        +"<div class=\"col-xs-2\">辅助评论:</div><div class=\"col-xs-10\" id='"+data.weiboList[i].weiboId+"++"+"'>"+data.weiboList[i].userName+"</div></div><div class=\"row\">"
-                        +"<div class=\"col-xs-2\">主账号回复:</div><div class=\"col-xs-10\" id='"+data.weiboList[i].weiboId+"**"+"'>"+data.weiboList[i].userName+"</div>"
-                        +"</div></div></div> </br></br>";
-                    wb[i] = data.weiboList[i].weiboId;
+                for (var i = 0; i < data.contentList.size; i++){
+                    div = div + "<div class=\"container\" id='"+data.contentList[i].ContentKeyId+"' >"
+                    +" <img src=\"./images/delete1.ico\" class=\"delete\" onclick=\"deleteKeyword("+data.contentList[i].ContentKeyId+")\"/>"
+                    +"<div class=\"content\" onclick=\"editKeyword("+data.contentList[i].ContentKeyId+")\"><div class=\"row\" >"
+                    +"<div class=\"col-xs-2\">关键词:</div><div class=\"col-xs-10\" id='"+data.contentList[i].ContentKeyId+"--"+"'>"+data.contentList[i].Keyword+"</div></div><div class=\"row\" >"
+                    +"<div class=\"col-xs-2\">辅助评论:</div><div class=\"col-xs-10\" id='"+data.contentList[i].ContentKeyId+"++"+"'>"+data.contentList[i].ContentId+"</div></div><div class=\"row\">"
+                    +"<div class=\"col-xs-2\">主账号回复:</div><div class=\"col-xs-10\" id='"+data.contentList[i].ContentKeyId+"**"+"'>"+data.contentList[i].ContentFuId+"</div>"
+                    +"</div></div></div> </br></br>";
+                    kw[i] = data.contentList[i].ContentKeyId;
                 }
                 document.getElementById("allCount").innerHTML = div;
             }
         });
     });
 
-    function deleteWeibo(value) {
-        document.getElementById('weiboId'+value).style.display='none';
-        for (var i = 0;i < wb.length;i++){
-            if (wb[i] == value)
-                wb[i] = -1;
+    function deleteKeyword(value) {
+        document.getElementById('ContentKeyId'+value).style.display='none';
+        for (var i = 0;i < kw.length;i++){
+            if (kw[i] == value)
+                kw[i] = -1;
         }
         $.ajax({
             url:'/deleteContentKey',
@@ -273,13 +273,15 @@
             $("#zzhhuifu").val("");
         }else{
             $.ajax({
-                url:'/addContentKey',
+                url:'/keyWord',
                 type:'post',
-                data:{'keywords':keywords,'fzpinglun':fzpinglun,'zzhhuifu':zzhhuifu,'openId':myopenId},
+                data:{'openId':myopenId,'keyword':keywords,'FP':fzpinglun,'ZH':zzhhuifu},
                 dataType:'json',
-                success:function () {
-                    alert("添加成功");
-                    window.location.reload();
+                success:function (data) {
+                    if(data.YON)
+                        window.location.reload();
+                   else
+                       alert("积分不够，请前往充值！！！");
 
                 }
             });

@@ -31,8 +31,18 @@ public class Functions {
     private int sy;
 
     private String yz;
+    
+    private int isfinish;
 
-    public Date getUpdate() {
+    public int getIsfinish() {
+		return isfinish;
+	}
+
+	public void setIsfinish(int isfinish) {
+		this.isfinish = isfinish;
+	}
+
+	public Date getUpdate() {
         return update;
     }
 
