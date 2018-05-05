@@ -17,6 +17,7 @@ public class FunctionsController {
 
     @RequestMapping("/Gongneng")
     public Map<String,Object> gongneng(String openId, String plzs, String bcfPl, String yp, String jx, String hd, String sy, String yz){
+        System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
         return functionsService.pinglunGongneng(openId,plzs,bcfPl,yp,jx,hd,sy,yz);
     }
 

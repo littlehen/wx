@@ -25,4 +25,9 @@ public class PinglunController {
         return pinglunService.baseInfo(openId);
     }
 
+
+    @RequestMapping("/keyWord")
+    public Map<String, Object> keyWord(String openId ,String keyword ,String FP , String ZH){
+        return pinglunService.keyWord(openId,keyword,FP,ZH);
+    }
 }

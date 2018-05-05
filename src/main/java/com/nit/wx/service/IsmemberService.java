@@ -24,7 +24,7 @@ public class IsmemberService {
         Date memberEndtime = userList.getMemberEndtime();
 
         if (date.after(memberEndtime)){
-            GoEasy goEasy = new GoEasy("BC-4882229bc1044eca9423455b60766994");
+            GoEasy goEasy = new GoEasy("BS-6fa87133e1894e7ca6d6ad0fdb1b97ed");
             goEasy.publish("wx_channel","true");
         }
     }
@@ -36,9 +36,9 @@ public class IsmemberService {
      appkey: 'BC-4882229bc1044eca9423455b60766994'
      });
       goEasy.subscribe({
-        channel: 'demo_channel',
+        channel: 'wx_channel',
         onMessage: function(message){
-     alert('收到：'+message.content);
+             alert('收到：'+message.content);
      }
      });
 
