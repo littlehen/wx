@@ -139,7 +139,7 @@ ul.nav.navbar-nav  ul {
       <div class="modal-body">
         <div class="row">
           <div class=" col-sm-10">
-            <input type="text" placeholder="请输入关键词"  style="width:280px;">
+            <input type="text" placeholder="请输入关键词"  id="keywords" style="width:280px;">
             <!-- <button type="button" class="btn btn-success btn-circle btn-sm" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus" style="font-size:20px;"></i></button> -->
             <p class="help-block"></p>
           </div>
@@ -148,7 +148,7 @@ ul.nav.navbar-nav  ul {
 	        <label class="control-label col-sm-2" for="input01">辅助评论:</label>
 	        <div class="controls">
             	<div class="col-sm-10">
-                <textarea  type="" class="form-control" rows="3" placeholder="如果有多条评论，请用 # 分隔开。一个辅助号使用一条评论"></textarea>
+                <textarea  type="" class="form-control" rows="3" id="fzpinglun" placeholder="如果有多条评论，请用 # 分隔开。一个辅助号使用一条评论"></textarea>
             </div>
           </div>
         </div>
@@ -156,13 +156,14 @@ ul.nav.navbar-nav  ul {
 	        <label class="control-label col-sm-2" for="input01">主账号回复:</label>
 	        <div class="controls">
             	<div class="col-sm-10">
-                <textarea type="" class="form-control" rows="3" placeholder="如果有多条回复语，请用 # 分隔开。一条回复语，回复一个辅助号"></textarea>
+                <textarea type="" class="form-control" rows="3" id="zzhhuifu" placeholder="如果有多条回复语，请用 # 分隔开。一条回复语，回复一个辅助号"></textarea>
             </div>
           </div>
         </div>
       </div>
-      <div class="modal-footer" >
-        <button   type="button" class="btn btn-primary">添加</button>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cancel()">关闭</button>
+        <button type="button" class="btn btn-primary" onclick="editContentKey()">提交</button>
       </div>
     </div>
   </div>
@@ -199,11 +200,9 @@ ul.nav.navbar-nav  ul {
                         div = div + "<div class=\"container\" id='weiboId"+data.weiboList[i].weiboId+"' >"
                         +" <img src=\"./images/delete1.ico\" class=\"delete\" onclick=\"deleteWeibo("+data.weiboList[i].weiboId+")\"/>"
                         +"<div class=\"content\" onclick=\"editWeiboFU("+data.weiboList[i].weiboId+")\"><div class=\"row\" >"
-                        +"<div class=\"col-xs-2\">关键词:</div><div class=\"col-xs-10\" id='"+data.weiboList[i].weiboId+"--"+"'>"+data.weiboList[i].userName+"</div></div><div class=\"row\">"
-                        +"<div class=\"col-xs-2\">辅助评论:</div><div class=\"col-xs-10\" 
-						id='"+data.weiboList[i].weiboId+"--"+"'>"+data.weiboList[i].userName+"</div></div><div class=\"row\">"
-                        +"<div class=\"col-xs-2\">主账号回复:</div><div class=\"col-xs-10\"
-						id='"+data.weiboList[i].weiboId+"--"+"'>"+data.weiboList[i].userName+"</div></div>
+                        +"<div class=\"col-xs-2\">关键词:</div><div class=\"col-xs-10\" id='"+data.weiboList[i].weiboId+"--"+"'>"+data.weiboList[i].userName+"</div></div><div class=\"row\" >"
+                        +"<div class=\"col-xs-2\">辅助评论:</div><div class=\"col-xs-10\" id='"+data.weiboList[i].weiboId+"++"+"'>"+data.weiboList[i].userName+"</div></div><div class=\"row\">"
+                        +"<div class=\"col-xs-2\">主账号回复:</div><div class=\"col-xs-10\" id='"+data.weiboList[i].weiboId+"**"+"'>"+data.weiboList[i].userName+"</div>"
                         +"</div></div></div> </br></br>";
                         wb[i] = data.weiboList[i].weiboId;
                     }
@@ -219,9 +218,9 @@ ul.nav.navbar-nav  ul {
                     wb[i] = -1;
             }
             $.ajax({
-                url:'/deleteWeiCount',
+                url:'/deleteContentKey',
                 type:'get',
-                data:{weiboId:value,openId:myopenId},
+                data:{'ContentKeyId':value,'openId':myopenId},
                 dataType:'JSON',
                 success:function (data) {
                     alert("删除成功！");
@@ -232,28 +231,32 @@ ul.nav.navbar-nav  ul {
 
         function editWeiboFU(value) {
             booleans = true;
-            var count = document.getElementById(value+"--").innerHTML;
-            var pass = "%11111111";
-            $.session.set("wbId",value);
-            $("#aeUsername").val(count);
-            $("#aePassword").val(-pass);
+            var keywords = document.getElementById(value+"--").innerHTML;
+            var fzpinglun = document.getElementById(value+"++").innerHTML;
+            var zzhhuifu = document.getElementById(value+"**").innerHTML;
+            $.session.set("ContentKeyId",value);
+            $("#keywords").val(keywords);
+            $("#fzpinglun").val(fzpinglun);
+            $("#zzhhuifu").val(zzhhuifu);
             $("#myModal").modal('show');
         }
 
         function cancel() {
             booleans = false;
-            $("#aeUsername").val("");
-            $("#aePassword").val("");
-            $.session.remove("wbId");
+            $("#keywords").val("");
+            $("#fzpinglun").val("");
+            $("#zzhhuifu").val("");
+            $.session.remove("ContentKeyId");
         }
-        function  aeWeiboFu() {
-            var count = $("#aeUsername").val();
-            var pass = $("#aePassword").val();
+        function  editContentKey() {
+            var keywords =  $("#keywords").val(keywords);
+            var fzpinglun = $("#fzpinglun").val(fzpinglun);
+            var zzhhuifu = $("#zzhhuifu").val(zzhhuifu);
             if (booleans){
                 $.ajax({
-                    url:'/editWeibo',
+                    url:'/editContentKey',
                     type:'post',
-                    data:{weiboId:$.session.get('wbId'),userName:count,Password:pass},
+                    data:{'ContentKeyId':$.session.get('ContentKeyId'),'keywords':keywords,'fzpinglun':fzpinglun,'zzhhuifu':zzhhuifu},
                     dataType:'json',
                     success:function () {
                         alert("编辑成功！");
@@ -261,13 +264,14 @@ ul.nav.navbar-nav  ul {
 
                     }
                 });
-                $("#aeUsername").val("");
-                $("#aePassword").val("");
+                $("#keywords").val("");
+                $("#fzpinglun").val("");
+                $("#zzhhuifu").val("");
             }else{
                 $.ajax({
-                    url:'/addWeiboFu',
+                    url:'/addContentKey',
                     type:'post',
-                    data:{userName:count,Password:pass,openId:myopenId},
+                    data:{'keywords':keywords,'fzpinglun':fzpinglun,'zzhhuifu':zzhhuifu,'openId':myopenId},
                     dataType:'json',
                     success:function () {
                         alert("添加成功");
@@ -275,8 +279,9 @@ ul.nav.navbar-nav  ul {
 
                     }
                 });
-                $("#aeUsername").val("");
-                $("#aePassword").val("");
+                $("#keywords").val("");
+                $("#fzpinglun").val("");
+                $("#zzhhuifu").val("");
             }
 
             booleans = false;
