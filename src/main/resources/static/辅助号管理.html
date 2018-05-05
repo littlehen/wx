@@ -96,6 +96,13 @@ ul.nav.navbar-nav  ul {
   </head>
   <body >
 
+  <div>
+    <a href = "/index.html">
+      <button   type="button" class="btn btn-primary">返回</button>
+    </a>
+    <br></br>
+  </div>
+
   <div id="allCount">
 
   </div>
@@ -171,8 +178,8 @@ ul.nav.navbar-nav  ul {
                         div = div + "<div class=\"container\" id='weiboId"+data.weiboList[i].weiboId+"' >"
                             +" <img src=\"./images/delete1.ico\" class=\"delete\" onclick=\"deleteWeibo("+data.weiboList[i].weiboId+")\"/>"
                             +"<div class=\"content\" onclick=\"editWeiboFU("+data.weiboList[i].weiboId+")\"><div class=\"row\" >"
-                            +"<div class=\"col-xs-2\">账号:</div><div class=\"col-xs-10\" id='"+data.weiboList[i].weiboId+"--"+"'>"+data.weiboList[i].userName+"</div></div><div class=\"row\">"
-                            +"<div class=\"col-xs-2\">密码:</div><div class=\"col-xs-10\">********</div>"
+                            +"<div class=\"col-xs-4\">账号:</div><div class=\"col-xs-8\" id='"+data.weiboList[i].weiboId+"--"+"'>"+data.weiboList[i].userName+"</div></div><div class=\"row\">"
+                            +"<div class=\"col-xs-4\">密码:</div><div class=\"col-xs-8\">********</div>"
                             +"</div></div></div> </br></br>";
                         wb[i] = data.weiboList[i].weiboId;
                     }

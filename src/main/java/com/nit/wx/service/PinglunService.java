@@ -110,6 +110,12 @@ public class PinglunService {
             contentkey.setContentId(max + 1 + "");
             contentkey.setKeyWord(keyword);
             contentkeyDao.save(contentkey);
+            Content content = new Content();
+            content.setUserId(user.getUserid());
+            content.setContent(FP+"，"+Zh);
+            contentDao.save(content);
+
+            user.setCmoney(Integer.parseInt(user.getCmoney())-50 +"");
             map.put("YON",true);
         }else
             map.put("YON",false);

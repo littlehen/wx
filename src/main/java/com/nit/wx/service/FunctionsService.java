@@ -80,6 +80,8 @@ public class FunctionsService {
         if ("SUCCESS".equals(map.get("return_code"))){
             String openId = map.get("openid");
             UserList user = userDao.findByOpenid(openId);
+
+
             String WechatPayCode = map.get("out_trade_no");
             String time = map.get("time_end");
             String money = map.get("cash_fee");
@@ -89,6 +91,12 @@ public class FunctionsService {
             pay.setUserId(user.getUserid());
             pay.setWechatPayCode(WechatPayCode);
             payDao.save(pay);
+
+
+            user.setCmoney(3000+"");
+            userDao.save(user);
+
+
             PrintWriter pw = response.getWriter();
             pw.write("success");
             pw.flush();
