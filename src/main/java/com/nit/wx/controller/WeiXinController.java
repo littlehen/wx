@@ -292,7 +292,7 @@ public class WeiXinController
 		disanfangInfoDao.save(disanfangInfo);
 	}
     res.sendRedirect("index.html?" + nickname + "&" + headimgurl + "&" + openid);
-  }            
+  }
   
   	/**
 	 * 
