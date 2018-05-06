@@ -29,8 +29,10 @@ import com.nit.wx.bean.component.ApiQueryAuthResult;
 import com.nit.wx.bean.component.AuthorizerAccessToken;
 import com.nit.wx.bean.component.PreAuthCode;
 import com.nit.wx.dao.DisanfangInfoDao;
+import com.nit.wx.dao.UserListDao;
 import com.nit.wx.disanfangutil.ComponentAPI;
 import com.nit.wx.model.Disanfanginfo;
+import com.nit.wx.model.UserList;
 import com.nit.wx.service.DisanfangInfoService;
 import com.nit.wx.util.AesException;
 import com.nit.wx.util.CVTicketUtil;
@@ -48,6 +50,9 @@ public class WeiXinController
 
 	@Autowired
 	IsmemberService ismemberService;
+	
+	@Autowired
+	UserListDao userListDao;
 
 
 
@@ -264,6 +269,7 @@ public class WeiXinController
   {
     System.out.println("-----------------------------收到请求，请求数据为：" + code + "-----------------------" + state);
     Disanfanginfo disanfangInfo = new Disanfanginfo();
+    UserList userList = new UserList();
 	disanfangInfo = disanfangInfoDao.findOne("wx3d6a383a2aa2b1e2"); 
     String get_access_token_url = "https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=wx49ccd98a0038211d&code=CODE&grant_type=authorization_code&component_appid=wx3d6a383a2aa2b1e2&component_access_token="+disanfangInfo.getComponentaccesstoken();
    
@@ -275,7 +281,8 @@ public class WeiXinController
     JSONObject jsonObject1 = WeixinUtil.httpRequest(get_userinfo, "GET", null);
     String nickname = jsonObject1.getString("nickname");
     String headimgurl = jsonObject1.getString("headimgurl");
-    
+    userList.setOpenid(openid);
+    userListDao.save(userList);
 	if ("".equals(disanfangInfo.getQrCode())) {
 		String get_qrCode = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + access_token;
 		String jsonStr = "{\"action_name\": \"QR_LIMIT_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": \"test\"}}}";
