@@ -23,7 +23,7 @@ public class Contentkey {
     @Column(name = "Contentid")
     private String contentId;
 
-    @NotNull
+
     @Column(name = "Contentfu")
     private Integer contentFu;
 
@@ -103,15 +103,15 @@ public class Contentkey {
     private String contentFuId;
 
 
-    @NotNull
+
     @Column(name = "Isfinish")
     private  Integer isFinish;
 
-    @NotNull
+
     @Column(name = "Zannumber")
     private Integer zanNumber;
 
-    @NotNull
+
     @Column(name = "Iszanfinish")
     private Integer isZanFinish;
 

@@ -156,7 +156,7 @@
   <div class="row row-margin-top">
     <div class="control-group">
       <div class="btn-group">
-        <button class="btn btn-success  col-xs-4" onclick="gongneng()">提交</button>
+        <button class="btn btn-success  col-xs-4" onclick="gongneng();">提交</button>
         <button class="btn btn-danger col-xs-4" style="margin-left: 40px" type="cancel">取消</button>
       </div>
     </div>
@@ -178,7 +178,6 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
 
-        <script src="js/jquery-1.9.1.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/bootstrap-switch.js"></script>
 
@@ -222,15 +221,14 @@
     </script>
     <script type="text/javascript">
 	function  gongneng() {
-	    alert("123");
-		var options=$("#sele option:selected");  
-		var options1=$("#sele1 option:selected");  
-		var options2=$("#sele2 option:selected");  
-		var options3=$("#sele3 option:selected");  
-		var options4=$("#sele4 option:selected");  
+		var options=$("#sele option:selected");
+		var options1=$("#sele1 option:selected");
+		var options2=$("#sele2 option:selected");
+		var options3=$("#sele3 option:selected");
+		var options4=$("#sele4 option:selected");
 		 $.ajax({
              url:'/Gongneng',
-             type:'post',
+             type:'get',
              data:{'openId':$.session.get('openId'),'plzs':state,'bcfPl':state1,'yp':options.val(),'jx':options1.val(),'hd':options2.val(),'sy':options3.val(),'yz':options4.val()},
              dataType:'JSON',
              success:function (data) {

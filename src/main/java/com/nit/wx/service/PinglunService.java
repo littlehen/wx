@@ -39,7 +39,7 @@ public class PinglunService {
         if (Integer.parseInt(user.getCmoney()) >= 100) {
             String[] content = contents.split("，");
 
-            int maxContentId = contentDao.findByContentId();
+            int maxContentId ;
             String contentId = "";
             //评论保存
             if (content.length != 0) {
@@ -47,20 +47,19 @@ public class PinglunService {
                     Content content1 = new Content();
                     content1.setUserId(user.getUserid());
                     content1.setContent(content[i]);
-                    maxContentId++;
+                    contentDao.save(content1);
+                    maxContentId = contentDao.findByContentId();
                     contentId += maxContentId;
                     if (i != content.length - 1)
                         contentId += "，";                   //注意在该程序中用到符号分割是逗号都是中文逗号
-                    contentDao.save(content1);
+
                 }
             }
             //添加主账号
             Weibo weibo = new Weibo();
-            weibo.setUserName(weibocode);
-            weibo.setPassword(weibopwd);
-            weibo.setUserId(user.getUserid());
-            weibo.setIsMain(1);
-            weiboDao.save(weibo);
+            List<Weibo> weibo1 = weiboDao.findByUserId(user.getUserid());
+            weibo1.get(0).setIsFinish(0);
+            weiboDao.save(weibo1.get(0));
 
             //添加评论
             Contentkey contentkey = new Contentkey();
@@ -87,8 +86,11 @@ public class PinglunService {
     public Map<String,Object> baseInfo(String openId){
         Map<String,Object> map = new HashMap<>();
         UserList user = new UserList();
+        System.out.println(openId+"=============================");
         user = userListDao.findByOpenid(openId);
+        System.out.println(user.getUserid()+"=========================");
         Weibo weibo = weiboDao.findByFuhaoNumberAndUserId(0,user.getUserid());
+
         if ("".equals(weibo.getUserName())){
             map.put("state",false);
         }

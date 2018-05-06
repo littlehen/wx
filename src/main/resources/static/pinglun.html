@@ -141,14 +141,15 @@
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
 
         <script src="js/jquery-1.9.1.js"></script>
+      <script src="js/jquerysession.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/bootstrap-switch.js"></script>
-  <script src="js/jquerysession.js"></script>
+
 
          <script type="text/javascript">
           $(function () {
@@ -180,8 +181,9 @@
 
     <script type="text/javascript">
 
-        var openId = $.session.get('openId');
+
     $(function(){
+        var openId = $.session.get('openId');
         $.ajax({
             url:"/baseInfo",
             type:'post',
@@ -190,7 +192,7 @@
             success:function (data) {
                 if(data.state){
                        $("#weibocode").val(data.weibo.userName);
-                       $("#weibopwd").val(data.weibo.Password);
+                       $("#weibopwd").val(data.weibo.password);
                 }
             }
         });
@@ -218,9 +220,6 @@
     	)
     })
 
-        $("#cancel").onclick({
-
-        })
     </script>
   </body>
 

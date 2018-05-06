@@ -12,7 +12,7 @@ public interface WeiboDao extends JpaRepository<Weibo,Integer> {
 
     List<Weibo> findByUserId(Integer userId);
 
-    @Query(nativeQuery = true,value = "SELECT * from weibo WHERE FUhaoNumber != ?1 and UserId = ?2")
+    @Query(nativeQuery = true,value = "SELECT * from weibo WHERE FUhaoNumber = ?1 and UserId = ?2")
     Weibo findByFuhaoNumberAndUserId(Integer fuhaoNumber,Integer userId);
 
 

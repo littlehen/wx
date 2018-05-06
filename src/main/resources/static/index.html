@@ -39,7 +39,7 @@
                 </li>
                 <li class="coupons"><a id="wapmysf_B01_03" href="javascript:void(0)http://coupon.fang.com/m/MyCoupon.html?From=MyMoney&City=wuhan"><span></span><p>优惠券</p></a>
                 </li>
-                <li class="integral"><a id="wapmysf_B01_04" href="javascript:void(0)https://mstore.fang.com/index.html"><p>积分:<span id="myGrade"></span></p></a>
+                <li class="integral"><a id="wapmysf_B01_04" href="javascript:void(0)https://mstore.fang.com/index.html"><p>积分:</p><p id="myGrade"></p></a>
                 </li>
             </ul>
         </nav>
@@ -79,7 +79,8 @@
             strs = str.split("&");
             var nickname = strs[0];
             var headimgurl = strs[1];
-            $.session.set("openId",strs[2]);
+           // $.session.set("openId",strs[2]);
+            $.session.set("openId","openid");
             $("#headimg").attr("src",headimgurl);
             document.getElementById("ahtm").innerHTML="用户昵称:"+nickname;
         }
