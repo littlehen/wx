@@ -11,7 +11,6 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.nit.wx.model.Ismember;
 import com.nit.wx.service.IsmemberService;
 import com.nit.wx.util.MessageUtil;
 import net.sf.json.JSONObject;
@@ -63,6 +62,7 @@ public class WeiXinController
 	 * @throws AesException
 	 * @throws DocumentException
 	 */   
+	@SuppressWarnings("null")
 	@RequestMapping(value="/wechat/author")
    public void acceptAuthorizeEvent(
        HttpServletResponse response,HttpServletRequest request){
@@ -74,7 +74,7 @@ public class WeiXinController
         	   disanfangInfo = disanfangInfoDao.findOne("wx3d6a383a2aa2b1e2");
         	   if(disanfangInfo == null) {
    	       		disanfangInfo.setComponentappid("wx3d6a383a2aa2b1e2");
-   	       		disanfangInfo.setComponentappsecret("R3L7ap7lTL37ZVvazV8266gV7L57Ll362F5vQZ67752");
+   	       		disanfangInfo.setComponentappsecret("04bbb9b44af5f4f9bbf53e232fc89825");
    	       		disanfangInfo.setComponentverifyticket(component_verify_ticket);
    	       	    System.out.println("component_verify_ticket存入成功2");
    	       	    disanfangInfoDao.save(disanfangInfo);
@@ -275,6 +275,7 @@ public class WeiXinController
     JSONObject jsonObject1 = WeixinUtil.httpRequest(get_userinfo, "GET", null);
     String nickname = jsonObject1.getString("nickname");
     String headimgurl = jsonObject1.getString("headimgurl");
+    
 	if ("".equals(disanfangInfo.getQrCode())) {
 		String get_qrCode = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + access_token;
 		String jsonStr = "{\"action_name\": \"QR_LIMIT_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": \"test\"}}}";
@@ -362,34 +363,40 @@ public class WeiXinController
   }
 
 
-  @RequestMapping("/wechat/messageReceive/{appid}/callback")
-  public void MessageReceive(HttpServletRequest request,HttpServletResponse response){
-	  String msgSignature = request.getParameter("msg_signature");
-	  try{
-		  StringBuilder sb = new StringBuilder();
-		  BufferedReader in = request.getReader();
-		  String line;
-		  while ((line = in.readLine())!= null){
-			sb.append(line);
-		  }
-		  in.close();
-		  String xml = sb.toString();
-		  Document document = DocumentHelper.parseText(xml);
-		  Element rootElt = document.getRootElement();
-		  String FromName = rootElt.elementText("FromUserName");
-		  String MsgType = rootElt.elementText("MsgType");
-		  String evenType = rootElt.elementText("Event");
-		  if (MsgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)){
-			if (evenType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE) || evenType.equals(MessageUtil.EVENT_TYPE_SCAN)){
-				ismemberService.findUserState(FromName);
-			}
-		  }
-		  PrintWriter pw = response.getWriter();
-		  pw.write("success");
-		  pw.flush();
-	  } catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-  }
+//  @SuppressWarnings("unused")
+//  @RequestMapping("/wechat/messageReceive/{appid}/callback")
+//  public void MessageReceive(HttpServletRequest request,HttpServletResponse response){
+//	  String msgSignature = request.getParameter("msg_signature");
+//	  try{
+//		  StringBuilder sb = new StringBuilder();
+//		  BufferedReader in = request.getReader();
+//		  String line;
+//		  while ((line = in.readLine())!= null){
+//			sb.append(line);
+//		  }
+//		  in.close();
+//		  String xml = sb.toString();
+//		  Document document = DocumentHelper.parseText(xml);
+//		  Element rootElt = document.getRootElement();
+//		  try {
+//			  String FromName = rootElt.elementText("FromUserName");
+//			  String MsgType = rootElt.elementText("MsgType");
+//			  String evenType = rootElt.elementText("Event");
+//			  if (MsgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)&&MsgType==""&&MsgType==null){
+//				if (evenType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE) || evenType.equals(MessageUtil.EVENT_TYPE_SCAN)){
+//					ismemberService.findUserState(FromName);
+//				}
+//			  }
+//		  }catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		  PrintWriter pw = response.getWriter();
+//		  pw.write("success");
+//		  pw.flush();
+//	  } catch (Exception e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//	}
+//  }
 }
