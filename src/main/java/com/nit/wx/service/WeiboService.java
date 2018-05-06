@@ -75,11 +75,11 @@ public class WeiboService {
     //辅助号列表
     public Map<String,Object> searchFu(String openId){
         Map<String,Object> map = new HashMap<>();
-//        UserList user = userListDao.findByOpenid(openId);
-//        List<Weibo> weibos = weiboDao.findByUserId(user.getUserid());
-        List<Weibo> weiboList = weiboDao.findAll();
-        map.put("number",weiboList.size());
-        map.put("weiboList",weiboList);
+        UserList user = userListDao.findByOpenid(openId);
+        List<Weibo> weibos = weiboDao.findByUserId(user.getUserid());
+//        List<Weibo> weiboList = weiboDao.findAll();
+        map.put("number",weibos.size());
+        map.put("weiboList",weibos);
         return map;
     }
 }
