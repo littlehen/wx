@@ -275,8 +275,8 @@ public class WeiXinController
     JSONObject jsonObject1 = WeixinUtil.httpRequest(get_userinfo, "GET", null);
     String nickname = jsonObject1.getString("nickname");
     String headimgurl = jsonObject1.getString("headimgurl");
-    
-	if ("".equals(disanfangInfo.getQrCode())) {
+  	String qrCode = disanfangInfo.getQrCode();
+  	if (qrCode == null && "".equals(qrCode)) {
 		String get_qrCode = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + access_token;
 		String jsonStr = "{\"action_name\": \"QR_LIMIT_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": \"test\"}}}";
 		JSONObject jsonObject2 = WeixinUtil.httpRequest(get_qrCode, "post", jsonStr);
@@ -351,7 +351,8 @@ public class WeiXinController
     JSONObject jsonObject1 = WeixinUtil.httpRequest(get_userinfo, "GET", null);
     String nickname = jsonObject1.getString("nickname");
     String headimgurl = jsonObject1.getString("headimgurl");
-  	if ("".equals(disanfangInfo.getQrCode())) {
+ 	String qrCode = disanfangInfo.getQrCode();
+  	if (qrCode == null && "".equals(qrCode)) {
 		String get_qrCode = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + access_token;
 		String jsonStr = "{\"action_name\": \"QR_LIMIT_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": \"test\"}}}";
 		JSONObject jsonObject2 = WeixinUtil.httpRequest(get_qrCode, "post", jsonStr);
