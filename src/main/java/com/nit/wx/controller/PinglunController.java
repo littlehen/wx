@@ -28,6 +28,7 @@ public class PinglunController {
 
     @RequestMapping("/keyWord")
     public Map<String, Object> keyWord(String openId ,String keyword ,String FP , String ZH){
+        System.out.println(openId+"======"+FP+"========="+ZH);
         return pinglunService.keyWord(openId,keyword,FP,ZH);
     }
 

@@ -86,7 +86,7 @@
     <style>
         .container{
             width:auto;
-            height: 60px;
+            height: 90px;
             position:relative;
             box-shadow: 0px 2px 0px 3px rgba(26, 6, 37, 0.43);
         }
@@ -182,7 +182,6 @@
 <script src="js/bootstrap.min.js"></script>
 
 
-<script src="js/bootstrap.js"></script>
 <script src="js/bootstrap-switch.js"></script>
 <script src="js/bootstrap-table.js"></script>
 <script src="js/bootstrap-table-zh-CN.js"></script>
@@ -195,19 +194,19 @@
         $.ajax({
             url:'/searchKeyword',
             type:'get',
-            data:{openid:'123'},
+            data:{openid:myopenId},
             dataType:'JSON',
             success:function (data) {
                 var div = "";
                 for (var i = 0; i < data.conLong; i++){
-                    div = div + "<div class=\"container\" id='"+data.contentList[i].ContentKeyId+"' >"
-                    +" <img src=\"./images/delete1.ico\" class=\"delete\" onclick=\"deleteKeyword("+data.contentList[i].ContentKeyId+")\"/>"
-                    +"<div class=\"content\" onclick=\"editKeyword("+data.contentList[i].ContentKeyId+")\"><div class=\"row\" >"
-                    +"<div class=\"col-xs-3\">关键词:</div><div class=\"col-xs-9\" id='"+data.contentList[i].ContentKeyId+"--"+"'>"+data.contentList[i].Keyword+"</div></div><div class=\"row\" >"
-                    +"<div class=\"col-xs-3\">辅助评论:</div><div class=\"col-xs-9\" id='"+data.contentList[i].ContentKeyId+"++"+"'>"+data.contentList[i].ContentId+"</div></div><div class=\"row\">"
-                    +"<div class=\"col-xs-3\">主账号回复:</div><div class=\"col-xs-9\" id='"+data.contentList[i].ContentKeyId+"**"+"'>"+data.contentList[i].ContentFuId+"</div>"
+                    div = div + "<div class=\"container\" id='"+data.contentList[i].contentKeyId+"' >"
+                   // +" <img src=\"./images/delete1.ico\" class=\"delete\" onclick=\"deleteKeyword("+data.contentList[i].contentKeyId+")\"/>"
+                    +"<div class=\"content\" onclick=\"editKeyword("+data.contentList[i].contentKeyId+")\"><div class=\"row\" >"
+                    +"<div class=\"col-xs-4\">关键词:</div><div class=\"col-xs-8\" id='"+data.contentList[i].contentKeyId+"--"+"'>"+data.contentList[i].keyWord+"</div></div><div class=\"row\" >"
+                    +"<div class=\"col-xs-4\">辅助评论:</div><div class=\"col-xs-8\" id='"+data.contentList[i].contentKeyId+"++"+"'>"+data.contentList[i].contentId+"</div></div><div class=\"row\">"
+                    +"<div class=\"col-xs-4\">主账号回复:</div><div class=\"col-xs-8\" id='"+data.contentList[i].contentKeyId+"**"+"'>"+data.contentList[i].contentFuId+"</div>"
                     +"</div></div></div> </br></br>";
-                    kw[i] = data.contentList[i].ContentKeyId;
+                    kw[i] = data.contentList[i].contentKeyId;
                 }
                 document.getElementById("allCount").innerHTML = div;
             }
@@ -215,11 +214,8 @@
     });
 
     function deleteKeyword(value) {
-        document.getElementById('ContentKeyId'+value).style.display='none';
-        for (var i = 0;i < kw.length;i++){
-            if (kw[i] == value)
-                kw[i] = -1;
-        }
+       // document.getElementById('ContentKeyId'+value).style.display='none';
+       alert(value);
         $.ajax({
             url:'/deleteContentKey',
             type:'get',
@@ -229,6 +225,7 @@
                 alert("删除成功！");
             }
         });
+        window.location.reload();
     }
 
 
@@ -259,7 +256,7 @@
             $.ajax({
                 url:'/keyWord',
                 type:'post',
-                data:{'openID':$.session.get('openId'),'keyword':keywords,'FP':fzpinglun,'ZH':zzhhuifu},
+                data:{'openID':myopenId,'keyword':keywords,'FP':fzpinglun,'ZH':zzhhuifu},
                 dataType:'json',
                 success:function (data) {
                     if(data.YON == false)

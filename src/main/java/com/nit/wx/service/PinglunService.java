@@ -9,11 +9,13 @@ import com.nit.wx.model.Content;
 import com.nit.wx.model.Contentkey;
 import com.nit.wx.model.UserList;
 import com.nit.wx.model.Weibo;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import java.rmi.MarshalledObject;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,6 +115,7 @@ public class PinglunService {
             contentkey.setContentFu(1);
             contentkey.setContentId(max + 1 + "");
             contentkey.setKeyWord(keyword);
+            contentkey.setIsFinish(0);
             contentkeyDao.save(contentkey);
             Content content = new Content();
             content.setUserId(user.getUserid());
@@ -132,13 +135,15 @@ public class PinglunService {
     public Map<String,Object> searchKeyword(String openid){
         Map<String,Object> map = new HashMap<>();
         UserList user = userListDao.findByOpenid(openid);
+        System.out.println(user.getUserid()+"------------------------------");
         List<Contentkey> contentkeys = contentkeyDao.findlist(user.getUserid());
-        List<Contentkey> list = null;
+        List<Contentkey> list = new ArrayList<>();
         if (contentkeys.size() != 0){
             for (Contentkey contentkey : contentkeys){
                     Content content = contentDao.findByContentId(Integer.parseInt(contentkey.getContentId()));
-                    String[] ls = content.getContent().split("$");
-                    contentkey.setContentId(ls[0]);
+                    String co = content.getContent();
+                    String[] ls = co.split("\\$");
+                   contentkey.setContentId(ls[0]);
                     contentkey.setContentFuId(ls[1]);
                     list.add(contentkey);
             }
@@ -147,6 +152,7 @@ public class PinglunService {
             map.put("contentList", list);
             map.put("conLong",list.size());
         }
+
         return map;
     }
 }

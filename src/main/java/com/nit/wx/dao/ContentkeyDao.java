@@ -12,6 +12,6 @@ public interface ContentkeyDao extends JpaRepository<Contentkey,Integer> {
     Contentkey findByUserID(Integer userId);
 
 
-    @Query(nativeQuery = true ,value = "SELECT * from contentkey WHERE userid = ?1 and keyword is NOT NULL and contentFu = 1 and isFinish = 0")
+    @Query(nativeQuery = true ,value = "SELECT * from contentkey WHERE userid = ?1 and keyword is NOT NULL and contentfu = 1 and isfinish = 0")
     List<Contentkey> findlist(Integer userId);
 }
