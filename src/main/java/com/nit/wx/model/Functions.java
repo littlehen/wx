@@ -34,6 +34,8 @@ public class Functions {
     
     private int isfinish;
 
+    private String updatee;
+
     public int getIsfinish() {
 		return isfinish;
 	}
@@ -42,15 +44,15 @@ public class Functions {
 		this.isfinish = isfinish;
 	}
 
-	public Date getUpdate() {
-        return update;
+	public String getUpdatee() {
+        return updatee;
     }
 
-    public void setUpdate(Date update) {
-        this.update = update;
+    public void setUpdatee(String updatee) {
+        this.updatee = updatee;
     }
 
-    private Date update;
+
 
     public int getFid() {
         return fid;

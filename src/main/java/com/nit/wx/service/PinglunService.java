@@ -89,9 +89,9 @@ public class PinglunService {
         System.out.println(openId+"=============================");
         user = userListDao.findByOpenid(openId);
         System.out.println(user.getUserid()+"=========================");
-        Weibo weibo = weiboDao.findByFuhaoNumberAndUserId(0,user.getUserid());
+        Weibo weibo = weiboDao.findByFuhaoNumberAndUserId(1,user.getUserid());
 
-        if ("".equals(weibo.getUserName())){
+        if ("".equals(weibo.getUserName())&& weibo.getUserName() ==null ){
             map.put("state",false);
         }
         else {
@@ -120,6 +120,7 @@ public class PinglunService {
             contentDao.save(content);
 
             user.setCmoney(Integer.parseInt(user.getCmoney())-50 +"");
+            userListDao.save(user);
             map.put("YON",true);
         }else
             map.put("YON",false);
@@ -142,8 +143,10 @@ public class PinglunService {
                     list.add(contentkey);
             }
         }
-        if (list!=null)
-            map.put("contentList",list);
+        if (list!=null) {
+            map.put("contentList", list);
+            map.put("conLong",list.size());
+        }
         return map;
     }
 }

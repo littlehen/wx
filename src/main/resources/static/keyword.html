@@ -138,7 +138,7 @@ ul.nav.navbar-nav  ul {
       </div>
       <div class="modal-body">
         <div class="row">
-            <label class="control-label col-sm-2" for="input01">关键字:</label>
+            <label class="control-label col-sm-2" >关键字:</label>
             <div>
               <div class=" col-sm-10">
                 <input type="text" placeholder="请输入关键词"  id="keywords" style="width:280px;">
@@ -148,7 +148,7 @@ ul.nav.navbar-nav  ul {
             </div>
         </div>
         <div class="row" style="margin-top: 10px">
-	        <label class="control-label col-sm-2" for="input01">辅助评论:</label>
+	        <label class="control-label col-sm-2" >辅助评论:</label>
 	        <div class="controls">
             	<div class="col-sm-10">
                     <input type="text"   id="fzpinglun" style="width:280px;">
@@ -156,7 +156,7 @@ ul.nav.navbar-nav  ul {
           </div>
         </div>
         <div class="row" style="margin-top: 10px">
-	        <label class="control-label col-sm-2" for="input01">主账号回复:</label>
+	        <label class="control-label col-sm-2" >主账号回复:</label>
 	        <div class="controls">
             	<div class="col-sm-10">
                     <input type="text"   id="zzhhuifu" style="width:280px;">
@@ -176,16 +176,17 @@ ul.nav.navbar-nav  ul {
 </div>
     
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <script src="js/jquery-1.9.1.js"></script>
+  <script src="js/jquerysession.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
 
-    <script src="js/jquery-1.9.1.js"></script>
+
     <script src="js/bootstrap.js"></script>
     <script src="js/bootstrap-switch.js"></script>
     <script src="js/bootstrap-table.js"></script>
     <script src="js/bootstrap-table-zh-CN.js"></script>
-    <script src="js/jquerysession.js"></script>
+
     <script type="text/javascript">
 
         var kw = [];
@@ -199,7 +200,7 @@ ul.nav.navbar-nav  ul {
                 dataType:'JSON',
                 success:function (data) {
                     var div = "";
-                    for (var i = 0; i < data.contentList.size; i++){
+                    for (var i = 0; i < data.conLong; i++){
                         div = div + "<div class=\"container\" id='"+data.contentList[i].ContentKeyId+"' >"
                         +" <img src=\"./images/delete1.ico\" class=\"delete\" onclick=\"deleteKeyword("+data.contentList[i].ContentKeyId+")\"/>"
                         +"<div class=\"content\" onclick=\"editKeyword("+data.contentList[i].ContentKeyId+")\"><div class=\"row\" >"
@@ -259,7 +260,7 @@ ul.nav.navbar-nav  ul {
                 $.ajax({
                     url:'/keyWord',
                     type:'post',
-                    data:{'openID':$.session.get('openId'),'keyword':keywords,'FP':fzpinglun,'ZH':zzhhuifu},
+                    data:{'openID':myopenId,'keyword':keywords,'FP':fzpinglun,'ZH':zzhhuifu},
                     dataType:'json',
                     success:function (data) {
                         if(data.YON)

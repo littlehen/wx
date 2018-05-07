@@ -121,7 +121,7 @@
     <div class="container-fluid">
         <div class="row">
             <ul class="nav navbar-nav" >
-                <button type="button" class="btn btn-success btn-circle btn-lg" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i></button>
+                <button type="button" class="btn btn-success btn-circle btn-lg" data-toggle="modal" data-target="#myModal1"><i class="glyphicon glyphicon-plus"></i></button>
             </ul>
         </div>
     </div>
@@ -129,7 +129,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -176,16 +176,16 @@
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="js/jquery-1.9.1.js"></script>
+<script src="js/jquerysession.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
 
-<script src="js/jquery-1.9.1.js"></script>
+
 <script src="js/bootstrap.js"></script>
 <script src="js/bootstrap-switch.js"></script>
 <script src="js/bootstrap-table.js"></script>
 <script src="js/bootstrap-table-zh-CN.js"></script>
-<script src="js/jquerysession.js"></script>
 <script type="text/javascript">
 
     var kw = [];
@@ -199,13 +199,13 @@
             dataType:'JSON',
             success:function (data) {
                 var div = "";
-                for (var i = 0; i < data.contentList.size; i++){
+                for (var i = 0; i < data.conLong; i++){
                     div = div + "<div class=\"container\" id='"+data.contentList[i].ContentKeyId+"' >"
                     +" <img src=\"./images/delete1.ico\" class=\"delete\" onclick=\"deleteKeyword("+data.contentList[i].ContentKeyId+")\"/>"
                     +"<div class=\"content\" onclick=\"editKeyword("+data.contentList[i].ContentKeyId+")\"><div class=\"row\" >"
-                    +"<div class=\"col-xs-2\">关键词:</div><div class=\"col-xs-10\" id='"+data.contentList[i].ContentKeyId+"--"+"'>"+data.contentList[i].Keyword+"</div></div><div class=\"row\" >"
-                    +"<div class=\"col-xs-2\">辅助评论:</div><div class=\"col-xs-10\" id='"+data.contentList[i].ContentKeyId+"++"+"'>"+data.contentList[i].ContentId+"</div></div><div class=\"row\">"
-                    +"<div class=\"col-xs-2\">主账号回复:</div><div class=\"col-xs-10\" id='"+data.contentList[i].ContentKeyId+"**"+"'>"+data.contentList[i].ContentFuId+"</div>"
+                    +"<div class=\"col-xs-3\">关键词:</div><div class=\"col-xs-9\" id='"+data.contentList[i].ContentKeyId+"--"+"'>"+data.contentList[i].Keyword+"</div></div><div class=\"row\" >"
+                    +"<div class=\"col-xs-3\">辅助评论:</div><div class=\"col-xs-9\" id='"+data.contentList[i].ContentKeyId+"++"+"'>"+data.contentList[i].ContentId+"</div></div><div class=\"row\">"
+                    +"<div class=\"col-xs-3\">主账号回复:</div><div class=\"col-xs-9\" id='"+data.contentList[i].ContentKeyId+"**"+"'>"+data.contentList[i].ContentFuId+"</div>"
                     +"</div></div></div> </br></br>";
                     kw[i] = data.contentList[i].ContentKeyId;
                 }
@@ -241,7 +241,7 @@
         $("#keywords").val(keywords);
         $("#fzpinglun").val(fzpinglun);
         $("#zzhhuifu").val(zzhhuifu);
-        $("#myModal").modal('show');
+        $("#myModal1").modal('show');
     }
 
     function cancel() {
@@ -252,9 +252,9 @@
         $.session.remove("ContentKeyId");
     }
     function  editContentKey() {
-        var keywords =  $("#keywords").val(keywords);
-        var fzpinglun = $("#fzpinglun").val(fzpinglun);
-        var zzhhuifu = $("#zzhhuifu").val(zzhhuifu);
+        var keywords =  $("#keywords").val();
+        var fzpinglun = $("#fzpinglun").val();
+        var zzhhuifu = $("#zzhhuifu").val();
         if (booleans){
             $.ajax({
                 url:'/keyWord',
@@ -262,15 +262,14 @@
                 data:{'openID':$.session.get('openId'),'keyword':keywords,'FP':fzpinglun,'ZH':zzhhuifu},
                 dataType:'json',
                 success:function (data) {
-                    if(data.YON)
-                        window.location.reload();
-                    else
+                    if(data.YON == false)
                         alert("积分不够，请前往充值！！！");
                 }
             });
             $("#keywords").val("");
             $("#fzpinglun").val("");
             $("#zzhhuifu").val("");
+            window.location.reload();
         }else{
             $.ajax({
                 url:'/keyWord',
@@ -278,9 +277,7 @@
                 data:{'openId':myopenId,'keyword':keywords,'FP':fzpinglun,'ZH':zzhhuifu},
                 dataType:'json',
                 success:function (data) {
-                    if(data.YON)
-                        window.location.reload();
-                   else
+                    if(data.YON == false)
                        alert("积分不够，请前往充值！！！");
 
                 }
@@ -288,10 +285,11 @@
             $("#keywords").val("");
             $("#fzpinglun").val("");
             $("#zzhhuifu").val("");
+            window.location.reload();
         }
 
         booleans = false;
-        $("#myModal").modal('hide');
+        $("#myModal1").modal('hide');
     }
 
 </script>

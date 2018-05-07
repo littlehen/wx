@@ -18,6 +18,7 @@ import javax.swing.plaf.basic.BasicScrollPaneUI;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,30 +38,30 @@ public class FunctionsService {
 
 
     public Map<String,Object> pinglunGongneng(String openId,String plzs,String bcfPl,String yp,String jx,String hd,String sy ,String yz){
-    	System.out.println(openId+"123");
+    	//System.out.println(yz+"----------------");
         Map<String,Object> map = new HashMap<>();
         UserList user = new UserList();
         user = userDao.findByOpenid(openId);
         System.out.println(user.getUserid());
-        Functions functions = new Functions();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
         Date date = new Date();
-        Pay pay = new Pay();
-        pay = payDao.findByUserId(user.getUserid());
-        int money = Integer.parseInt(pay.getMoney());
+        int money = Integer.parseInt(user.getCmoney());
         if (money >= 50) {
+            Functions functions = new Functions();
             functions.setUserId(user.getUserid());
             functions.setBcfPl(Integer.parseInt(bcfPl));
             functions.setPlZhushou(Integer.parseInt(plzs));
             functions.setHd(Integer.parseInt(hd));
             functions.setJx(Integer.parseInt(jx));
             functions.setSy(Integer.parseInt(sy));
-            functions.setUpdate(date);
+            functions.setUpdatee(sf.format(date));
+            System.out.println(functions.getUpdatee()+"========================================");
             functions.setYp(Integer.parseInt(yp));
             functions.setYz(yz);
+            functions.setIsfinish(0);
             functionsDao.save(functions);
-            money -= money;
-            pay.setMoney(money+"");
-            payDao.save(pay);
+            user.setCmoney(money-50+"");
+            userDao.save(user);
             map.put("state",true);
         }
         else

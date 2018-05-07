@@ -29,6 +29,7 @@ public class WeiboController {
 
     @RequestMapping("/searchFu")
     public Map<String, Object> searchFu(String openid){
+        System.out.println(openid+"=============");
         return weiboService.searchFu(openid);
     }
 

@@ -136,7 +136,7 @@ ul.nav.navbar-nav  ul {
         <div class="row" style="margin-top: 10px">
           <div class="col-xs-4">密码：</div>
           <div class="col-xs-8">
-            <input type="password" name="" id="aePassword" style="width: 100% ">
+            <input type="text" name="" id="aePassword" style="width: 100% ">
           </div>
         </div>
       </div>
@@ -170,7 +170,7 @@ ul.nav.navbar-nav  ul {
             $.ajax({
                 url:'/searchFu',
                 type:'get',
-                data:{openid:'123'},
+                data:{openid:myopenId},
                 dataType:'JSON',
                 success:function (data) {
                     var div = "";
@@ -179,7 +179,7 @@ ul.nav.navbar-nav  ul {
                             +" <img src=\"./images/delete1.ico\" class=\"delete\" onclick=\"deleteWeibo("+data.weiboList[i].weiboId+")\"/>"
                             +"<div class=\"content\" onclick=\"editWeiboFU("+data.weiboList[i].weiboId+")\"><div class=\"row\" >"
                             +"<div class=\"col-xs-4\">账号:</div><div class=\"col-xs-8\" id='"+data.weiboList[i].weiboId+"--"+"'>"+data.weiboList[i].userName+"</div></div><div class=\"row\">"
-                            +"<div class=\"col-xs-4\">密码:</div><div class=\"col-xs-8\">********</div>"
+                            +"<div class=\"col-xs-4\">密码:</div><div class=\"col-xs-8\" id='"+data.weiboList[i].weiboId+"++"+"'>"+data.weiboList[i].password+"</div>"
                             +"</div></div></div> </br></br>";
                         wb[i] = data.weiboList[i].weiboId;
                     }
@@ -209,10 +209,10 @@ ul.nav.navbar-nav  ul {
         function editWeiboFU(value) {
             booleans = true;
             var count = document.getElementById(value+"--").innerHTML;
-            var pass = "%11111111";
+            var pass = document.getElementById(value+"++").innerHTML;
             $.session.set("wbId",value);
             $("#aeUsername").val(count);
-            $("#aePassword").val(-pass);
+            $("#aePassword").val(pass);
             $("#myModal").modal('show');
         }
 
@@ -233,10 +233,11 @@ ul.nav.navbar-nav  ul {
                     dataType:'json',
                     success:function () {
                         alert("编辑成功！");
-                        window.location.reload();
+
 
                     }
                 });
+                window.location.reload();
                 $("#aeUsername").val("");
                 $("#aePassword").val("");
             }else{
@@ -247,10 +248,11 @@ ul.nav.navbar-nav  ul {
                     dataType:'json',
                     success:function () {
                         alert("添加成功");
-                        window.location.reload();
+
 
                     }
                 });
+                window.location.reload();
                 $("#aeUsername").val("");
                 $("#aePassword").val("");
             }
