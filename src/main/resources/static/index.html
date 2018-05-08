@@ -33,7 +33,7 @@
 		<a href="javascript:void(0)https://m.fang.com/passport/login.aspx?burl=%2F%2Fm.fang.com%2Fmy%2F%3Fc%3Dmycenter%26a%3Dindex%26city%3Dwuhan" id="ahtm" class="login"></a>
         <nav>
             <ul class="flexBox box">
-                <li class="mymoney"><a id="wapmysf_B01_02" href="javascript:void(0)//m.fang.com/my/?c=my&a=payIndex&city=wuhan"><p>我的钱:<span id="myMoney"></span><span>元</span></p></a>
+                <li class="mymoney"><a id="wapmysf_B01_02" href="javascript:void(0)//m.fang.com/my/?c=my&a=payIndex&city=wuhan"><p>我的钱:</p><p id="myMoney"><span>元</span></p></a>
                 </li>
                 <li class="redBag"><a href="javascript:void(0)http://m.fang.com/house/ec/RedBag0910/list?v=" class="colorW"><p>红包</p></a>
                 </li>
@@ -96,7 +96,8 @@
             	if(data.grade == null || data.grade == "")
             		$("#myGrade").text('0');
             	else
-                $("#myGrade").text(data.grade);
+                    $("#myGrade").text(data.grade);
+                $("#myMoney").text(0);
             }
         });
     });
