@@ -238,7 +238,7 @@ public class WeiXinController
 	  long interval = (d1.getTime() - d2.getTime());
 	  if(interval > 7000) {		  
 		  AuthorizerAccessToken authorizerAccessToken = new AuthorizerAccessToken();
-		  authorizerAccessToken = ComponentAPI.api_authorizer_token(disanfangInfo.getComponentaccesstoken(), disanfangInfo.getComponentappid(), "wx49ccd98a0038211d", disanfangInfo.getAuthorizerrefreshtoken());
+		  authorizerAccessToken = ComponentAPI.api_authorizer_token(disanfangInfo.getComponentaccesstoken(), disanfangInfo.getComponentappid(), "wxf00dadf1b0a45c61", disanfangInfo.getAuthorizerrefreshtoken());
 		  disanfangInfo.setComponentappid(disanfangInfo.getComponentappid());
 		  disanfangInfo.setAuthorizeraccesstoken(authorizerAccessToken.getAuthorizer_access_token());
 		  disanfangInfo.setAuthorizerrefreshtoken(authorizerAccessToken.getAuthorizer_refresh_token());
@@ -249,7 +249,7 @@ public class WeiXinController
 				}
 	  }
 	  res.setCharacterEncoding("utf-8");
-	  res.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx49ccd98a0038211d&redirect_uri=http://www.juhuaihua.cn/huoqucode?response_type=code&scope=snsapi_userinfo&state=1&component_appid=wx3d6a383a2aa2b1e2#wechat_redirect");
+	  res.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf00dadf1b0a45c61&redirect_uri=http://www.juhuaihua.cn/huoqucode?response_type=code&scope=snsapi_userinfo&state=1&component_appid=wx3d6a383a2aa2b1e2#wechat_redirect");
   }
   
   /**
@@ -271,7 +271,7 @@ public class WeiXinController
     Disanfanginfo disanfangInfo = new Disanfanginfo();
     UserList userList = new UserList();
 	disanfangInfo = disanfangInfoDao.findOne("wx3d6a383a2aa2b1e2"); 
-    String get_access_token_url = "https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=wx49ccd98a0038211d&code=CODE&grant_type=authorization_code&component_appid=wx3d6a383a2aa2b1e2&component_access_token="+disanfangInfo.getComponentaccesstoken();
+    String get_access_token_url = "https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=wxf00dadf1b0a45c61&code=CODE&grant_type=authorization_code&component_appid=wx3d6a383a2aa2b1e2&component_access_token="+disanfangInfo.getComponentaccesstoken();
    
     get_access_token_url = get_access_token_url.replace("CODE", code);
     JSONObject jsonObject = WeixinUtil.httpRequest(get_access_token_url, "GET", null);
@@ -284,7 +284,7 @@ public class WeiXinController
     userList.setOpenid(openid);
     userListDao.save(userList);
     String qrCode = disanfangInfo.getQrCode();
-	if ("".equals(qrCode) && qrCode == null) {
+	if ("".equals(qrCode) || qrCode == null) {
 		String uuu = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxf00dadf1b0a45c61&secret=4a691c01b20290399f45e7d8352e9782";
 		JSONObject jsonObject3 = WeixinUtil.httpRequest(uuu,"GET",null);
 		String get_qrCode = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + jsonObject3.getString("access_token");
@@ -320,7 +320,7 @@ public class WeiXinController
 	  long interval = (d1.getTime() - d2.getTime());
 	  if(interval > 7000) {		  
 		  AuthorizerAccessToken authorizerAccessToken = new AuthorizerAccessToken();
-		  authorizerAccessToken = ComponentAPI.api_authorizer_token(disanfangInfo.getComponentaccesstoken(), disanfangInfo.getComponentappid(), "wx49ccd98a0038211d", disanfangInfo.getAuthorizerrefreshtoken());
+		  authorizerAccessToken = ComponentAPI.api_authorizer_token(disanfangInfo.getComponentaccesstoken(), disanfangInfo.getComponentappid(), "wxf00dadf1b0a45c61", disanfangInfo.getAuthorizerrefreshtoken());
 		  disanfangInfo.setComponentappid(disanfangInfo.getComponentappid());
 		  disanfangInfo.setAuthorizeraccesstoken(authorizerAccessToken.getAuthorizer_access_token());
 		  disanfangInfo.setAuthorizerrefreshtoken(authorizerAccessToken.getAuthorizer_refresh_token());
@@ -331,7 +331,7 @@ public class WeiXinController
 				}
 	  }
     res.setCharacterEncoding("utf-8");
-    res.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx49ccd98a0038211d&redirect_uri=http://www.juhuaihua.cn/huoqucodee?response_type=code&scope=snsapi_userinfo&state=1&component_appid=wx3d6a383a2aa2b1e2#wechat_redirect");
+    res.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf00dadf1b0a45c61&redirect_uri=http://www.juhuaihua.cn/huoqucodee?response_type=code&scope=snsapi_userinfo&state=1&component_appid=wx3d6a383a2aa2b1e2#wechat_redirect");
   }
   
   /**
@@ -351,7 +351,7 @@ public class WeiXinController
     System.out.println("-----------------------------收到请求，请求数据为：" + code + "-----------------------" + state);
     Disanfanginfo disanfangInfo = new Disanfanginfo();
    	disanfangInfo = disanfangInfoDao.findOne("wx3d6a383a2aa2b1e2"); 
-    String get_access_token_url = "https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=wx49ccd98a0038211d&code=CODE&grant_type=authorization_code&component_appid=wx3d6a383a2aa2b1e2&component_access_token="+disanfangInfo.getComponentaccesstoken();
+    String get_access_token_url = "https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=wxf00dadf1b0a45c61&code=CODE&grant_type=authorization_code&component_appid=wx3d6a383a2aa2b1e2&component_access_token="+disanfangInfo.getComponentaccesstoken();
     get_access_token_url = get_access_token_url.replace("CODE", code);
     JSONObject jsonObject = WeixinUtil.httpRequest(get_access_token_url, "GET", null);
     String access_token = jsonObject.getString("access_token");
