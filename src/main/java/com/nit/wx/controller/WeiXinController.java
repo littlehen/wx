@@ -269,7 +269,7 @@ public class WeiXinController
   {
     System.out.println("-----------------------------收到请求，请求数据为：" + code + "-----------------------" + state);
     Disanfanginfo disanfangInfo = new Disanfanginfo();
-    UserList userList = new UserList();
+
 	disanfangInfo = disanfangInfoDao.findOne("wx3d6a383a2aa2b1e2"); 
     String get_access_token_url = "https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=wxf00dadf1b0a45c61&code=CODE&grant_type=authorization_code&component_appid=wx3d6a383a2aa2b1e2&component_access_token="+disanfangInfo.getComponentaccesstoken();
    
@@ -281,6 +281,8 @@ public class WeiXinController
     JSONObject jsonObject1 = WeixinUtil.httpRequest(get_userinfo, "GET", null);
     String nickname = jsonObject1.getString("nickname");
     String headimgurl = jsonObject1.getString("headimgurl");
+    UserList userList = new UserList();
+    userList.setUserid(userListDao.findMax());
     userList.setOpenid(openid);
     userListDao.save(userList);
     String qrCode = disanfangInfo.getQrCode();
@@ -376,40 +378,42 @@ public class WeiXinController
   }
 
 
-//  @SuppressWarnings("unused")
-//  @RequestMapping("/wechat/messageReceive/{appid}/callback")
-//  public void MessageReceive(HttpServletRequest request,HttpServletResponse response){
-//	  String msgSignature = request.getParameter("msg_signature");
-//	  try{
-//		  StringBuilder sb = new StringBuilder();
-//		  BufferedReader in = request.getReader();
-//		  String line;
-//		  while ((line = in.readLine())!= null){
-//			sb.append(line);
-//		  }
-//		  in.close();
-//		  String xml = sb.toString();
-//		  Document document = DocumentHelper.parseText(xml);
-//		  Element rootElt = document.getRootElement();
-//		  try {
-//			  String FromName = rootElt.elementText("FromUserName");
-//			  String MsgType = rootElt.elementText("MsgType");
-//			  String evenType = rootElt.elementText("Event");
-//			  if (MsgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)&&MsgType==""&&MsgType==null){
-//				if (evenType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE) || evenType.equals(MessageUtil.EVENT_TYPE_SCAN)){
-//					ismemberService.findUserState(FromName);
-//				}
-//			  }
-//		  }catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		  PrintWriter pw = response.getWriter();
-//		  pw.write("success");
-//		  pw.flush();
-//	  } catch (Exception e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//	}
-//  }
+  @SuppressWarnings("unused")
+  @RequestMapping("/wechat/messageReceive/{appid}/callback")
+  public void MessageReceive(HttpServletRequest request,HttpServletResponse response){
+	  String msgSignature = request.getParameter("msg_signature");
+	  try{
+		  StringBuilder sb = new StringBuilder();
+		  BufferedReader in = request.getReader();
+		  String line;
+		  while ((line = in.readLine())!= null){
+			sb.append(line);
+		  }
+		  in.close();
+		  String xml = sb.toString();
+		  Document document = DocumentHelper.parseText(xml);
+		  Element rootElt = document.getRootElement();
+		  try {
+			  String FromName = rootElt.elementText("FromUserName");
+			  String MsgType = rootElt.elementText("MsgType");
+			  String evenType = rootElt.elementText("Event");
+			  if (MsgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)&&MsgType==""&&MsgType==null){
+				if (evenType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE) || evenType.equals(MessageUtil.EVENT_TYPE_SCAN)){
+					ismemberService.findUserState(FromName);
+				}
+			  }else {
+			  	System.out.println("123");
+			  }
+		  }catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		  PrintWriter pw = response.getWriter();
+		  pw.write("success");
+		  pw.flush();
+	  } catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+  }
 }

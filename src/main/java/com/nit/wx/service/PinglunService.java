@@ -69,6 +69,7 @@ public class PinglunService {
                 contentkey.setUserID(user.getUserid());
                 contentkey.setZanNumber(Integer.parseInt(ZanNumber));
                 contentkey.setContentId(contentId);
+                contentkey.setIsZanFinish(0);
                 contentkeyDao.save(contentkey);
             } catch (Exception e) {
                 System.out.println(e);
@@ -93,7 +94,7 @@ public class PinglunService {
         System.out.println(user.getUserid()+"=========================");
         Weibo weibo = weiboDao.findByFuhaoNumberAndUserId(1,user.getUserid());
 
-        if ("".equals(weibo.getUserName())&& weibo.getUserName() ==null ){
+        if ("".equals(weibo.getUserName())|| weibo.getUserName() ==null ){
             map.put("state",false);
         }
         else {
