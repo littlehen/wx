@@ -80,16 +80,22 @@
             var nickname = strs[0];
             var headimgurl = strs[1];
             $.session.set("openId",strs[2]);
+            $.session.set("headimgurl",headimgurl);
+            $.session.set("nickname",nickname);
             //$.session.set("openId","openid");
-            $("#headimg").attr("src",headimgurl);
-            document.getElementById("ahtm").innerHTML="用户昵称:"+nickname;
+           
         }
+        $("#headimg").attr("src",$.session.get('headimgurl'));
+        document.getElementById("ahtm").innerHTML="用户昵称:"+$.session.get('nickname');
         $.ajax({
             url:'/myInfo',
             type:'post',
             data:{'openId':$.session.get('openId')},
             dataType:'JSON',
             success:function (data) {
+            	if(data.grade == null || data.grade == "")
+            		$("#myGrade").text('0');
+            	else
                 $("#myGrade").text(data.grade);
             }
         });
