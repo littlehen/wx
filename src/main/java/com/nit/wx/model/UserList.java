@@ -10,7 +10,7 @@ import java.util.Date;
 @IdClass(UserListId.class)
 public class UserList  implements Serializable{
 
-    @Column(name = "UserId")
+
     private Integer userid;
 
     private String openid;

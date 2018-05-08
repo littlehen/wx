@@ -282,9 +282,14 @@ public class WeiXinController
     String nickname = jsonObject1.getString("nickname");
     String headimgurl = jsonObject1.getString("headimgurl");
     UserList userList = new UserList();
-    userList.setUserid(userListDao.findMax());
-    userList.setOpenid(openid);
-    userListDao.save(userList);
+    userList = userListDao.findByOpenid(openid);
+    if(userList == null) {
+    	Integer uid = userListDao.findMax();
+    	System.out.println(uid+"==============================");
+		userList.setUserid(uid+1);
+		userList.setOpenid(openid);
+		userListDao.save(userList);
+	}
     String qrCode = disanfangInfo.getQrCode();
 	if ("".equals(qrCode) || qrCode == null) {
 		String uuu = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxf00dadf1b0a45c61&secret=4a691c01b20290399f45e7d8352e9782";
