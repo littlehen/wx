@@ -79,8 +79,8 @@
             strs = str.split("&");
             var nickname = strs[0];
             var headimgurl = strs[1];
-           // $.session.set("openId",strs[2]);
-            $.session.set("openId","openid");
+            $.session.set("openId",strs[2]);
+            //$.session.set("openId","openid");
             $("#headimg").attr("src",headimgurl);
             document.getElementById("ahtm").innerHTML="用户昵称:"+nickname;
         }
