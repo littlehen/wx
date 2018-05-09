@@ -7,10 +7,10 @@ import java.util.Date;
 
 @Entity
 @Table(name = "user_list")
-@IdClass(UserListId.class)
-public class UserList  implements Serializable{
+public class UserList  {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userid;
 
     private String openid;
@@ -37,11 +37,10 @@ public class UserList  implements Serializable{
         return userid;
     }
 
-    @Id
     public void setUserid(Integer userid) {
         this.userid = userid;
     }
-    @Id
+
     public String getOpenid() {
         return openid;
     }

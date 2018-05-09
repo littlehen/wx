@@ -38,6 +38,20 @@ public class PinglunService {
 
     public void addPinglun(String openId,String weibocode,String weibopwd,String contents,String ZanNumber){
         UserList user = userListDao.findByOpenid(openId);
+
+       Weibo weibo5 = weiboDao.findByFuhaoNumberAndUserId(1,user.getUserid());
+       if ( weibo5 == null){
+           weibo5 = new Weibo();
+           weibo5.setUserId(user.getUserid());
+           weibo5.setUserName(weibocode);
+           weibo5.setPassword(weibopwd);
+           weibo5.setIsMain(1);
+           weiboDao.save(weibo5);
+       }else {
+           weibo5.setUserName(weibocode);
+           weibo5.setPassword(weibopwd);
+           weiboDao.save(weibo5);
+       }
         if (Integer.parseInt(user.getCmoney()) >= 100) {
             String[] content = contents.split("，");
 
@@ -59,9 +73,9 @@ public class PinglunService {
             }
             //添加主账号
             Weibo weibo = new Weibo();
-            List<Weibo> weibo1 = weiboDao.findByUserId(user.getUserid());
-            weibo1.get(0).setIsFinish(0);
-            weiboDao.save(weibo1.get(0));
+            Weibo weibo1 = weiboDao.findByFuhaoNumberAndUserId(1,user.getUserid());
+            weibo1.setIsFinish(0);
+            weiboDao.save(weibo1);
 
             //添加评论
             Contentkey contentkey = new Contentkey();

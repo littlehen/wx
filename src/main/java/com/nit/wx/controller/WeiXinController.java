@@ -284,9 +284,7 @@ public class WeiXinController
     UserList userList = new UserList();
     userList = userListDao.findByOpenid(openid);
     if(userList == null) {
-    	Integer uid = userListDao.findMax();
-    	System.out.println(uid+"==============================");
-		userList.setUserid(uid+1);
+    	userList = new UserList();
 		userList.setOpenid(openid);
 		userListDao.save(userList);
 	}
