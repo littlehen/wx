@@ -52,6 +52,28 @@ class XMLParse {
 			throw new AesException(AesException.ParseXmlError);
 		}
 	}
+	
+	public static Object[] extract1(String xmltext) throws AesException     {
+		Object[] result = new Object[3];
+		try {
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			StringReader sr = new StringReader(xmltext);
+			InputSource is = new InputSource(sr);
+			Document document = db.parse(is);
+
+			Element root = document.getDocumentElement();
+			NodeList nodelist1 = root.getElementsByTagName("Encrypt");
+			NodeList nodelist2 = root.getElementsByTagName("ToUserName");
+			result[0] = 0;
+			result[1] = nodelist1.item(0).getTextContent();
+			result[2] = nodelist2.item(0).getTextContent();
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AesException(AesException.ParseXmlError);
+		}
+	}
 
 	/**
 	 * 生成xml消息

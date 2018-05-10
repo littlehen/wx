@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.nit.wx.service.IsmemberService;
 import com.nit.wx.util.MessageUtil;
+import com.nit.wx.util.WXBizMsgCrypt;
+
 import net.sf.json.JSONObject;
 
 import org.dom4j.Document;
@@ -384,7 +386,14 @@ public class WeiXinController
   @SuppressWarnings("unused")
   @RequestMapping("/wechat/messageReceive/{appid}/callback")
   public void MessageReceive(HttpServletRequest request,HttpServletResponse response){
-	  String msgSignature = request.getParameter("msg_signature");
+	  String timestamp=request.getParameter("timestamp");
+      String encrypt_type=request.getParameter("encrypt_type");
+      String nonce=request.getParameter("nonce");
+      String msg_signature=request.getParameter("msg_signature");
+      System.out.println("timestamp:"+timestamp);
+      System.out.println("encrypt_type:"+encrypt_type);
+      System.out.println("nonce:"+nonce);
+      System.out.println("msg_signature:"+msg_signature);
 	  System.out.println("吴佶津和万里校花的故事，请聆听+++++++++" +
 			  "+++++++++++=========================================————————————————————————" +
 			  "=-================================——————————————————————————");
@@ -397,6 +406,11 @@ public class WeiXinController
 		  }
 		  in.close();
 		  String xml = sb.toString();
+		  System.out.println("微信推送的原生："+xml);
+		  WXBizMsgCrypt pc = new WXBizMsgCrypt("wssiCh8TqbqHZoq9Up56jtauTtOD85Tt", "R3L7ap7lTL37ZVvazV8266gV7L57Ll362F5vQZ67752","wx3d6a383a2aa2b1e2");
+          xml = pc.decryptMsg1(msg_signature, timestamp, nonce, xml);
+          System.out.println("解密后的："+xml);
+          
 		  Document document = DocumentHelper.parseText(xml);
 		  Element rootElt = document.getRootElement();
 		  try {
