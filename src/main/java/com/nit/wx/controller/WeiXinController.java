@@ -385,6 +385,9 @@ public class WeiXinController
   @RequestMapping("/wechat/messageReceive/{appid}/callback")
   public void MessageReceive(HttpServletRequest request,HttpServletResponse response){
 	  String msgSignature = request.getParameter("msg_signature");
+	  System.out.println("吴佶津和万里校花的故事，请聆听+++++++++" +
+			  "+++++++++++=========================================————————————————————————" +
+			  "=-================================——————————————————————————");
 	  try{
 		  StringBuilder sb = new StringBuilder();
 		  BufferedReader in = request.getReader();
@@ -400,6 +403,9 @@ public class WeiXinController
 			  String FromName = rootElt.elementText("FromUserName");
 			  String MsgType = rootElt.elementText("MsgType");
 			  String evenType = rootElt.elementText("Event");
+			  System.out.println(FromName+"+++++++++" +
+					  "+++++++++++=========================================————————————————————————" +
+					  "=-================================——————————————————————————");
 			  if (MsgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)&&MsgType==""&&MsgType==null){
 				if (evenType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE) || evenType.equals(MessageUtil.EVENT_TYPE_SCAN)){
 					ismemberService.findUserState(FromName);

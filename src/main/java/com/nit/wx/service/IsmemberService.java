@@ -18,6 +18,9 @@ public class IsmemberService {
     UserListDao userListDao;
 
     public void findUserState(String openID){
+        System.out.println("吴佶津和万里小花的故事，请聆听+++++++++" +openID+
+                "+++++++++++=========================================————————————————————————" +
+                "=-================================——————————————————————————");
         UserList userList = new UserList();
         userList = userListDao.findByOpenid(openID);
         Date date = new Date();
