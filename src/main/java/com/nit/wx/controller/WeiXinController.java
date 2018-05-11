@@ -15,6 +15,7 @@ import com.nit.wx.service.IsmemberService;
 import com.nit.wx.util.MessageUtil;
 import com.nit.wx.util.WXBizMsgCrypt;
 
+import io.goeasy.GoEasy;
 import net.sf.json.JSONObject;
 
 import org.dom4j.Document;
@@ -394,9 +395,10 @@ public class WeiXinController
       System.out.println("encrypt_type:"+encrypt_type);
       System.out.println("nonce:"+nonce);
       System.out.println("msg_signature:"+msg_signature);
-	  System.out.println("吴佶津和万里校花的故事，请聆听+++++++++" +
-			  "+++++++++++=========================================————————————————————————" +
-			  "=-================================——————————————————————————");
+
+	  GoEasy goEasy = new GoEasy("BC-4882229bc1044eca9423455b60766994");
+	  goEasy.publish("wx_channel","true");
+	  System.out.println("111111111111111111111111111111111111111111111111111");
 	  try{
 		  StringBuilder sb = new StringBuilder();
 		  BufferedReader in = request.getReader();
@@ -417,9 +419,6 @@ public class WeiXinController
 			  String FromName = rootElt.elementText("FromUserName");
 			  String MsgType = rootElt.elementText("MsgType");
 			  String evenType = rootElt.elementText("Event");
-			  System.out.println(FromName+"+++++++++" +
-					  "+++++++++++=========================================————————————————————————" +
-					  "=-================================——————————————————————————");
 			  if (MsgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)&&MsgType==""&&MsgType==null){
 				if (evenType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE) || evenType.equals(MessageUtil.EVENT_TYPE_SCAN)){
 					ismemberService.findUserState(FromName);

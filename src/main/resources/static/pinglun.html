@@ -126,7 +126,7 @@
 		 </p>
 		 <p>
 		<div class="btn-group col-sm-12" style="width: 100%">
-		<button class="btn btn-danger btn-lg btn-block" type="cancel"  id="cancel" >取消</button>
+		<button class="btn btn-danger btn-lg btn-block" type="cancel"  onclick="cancels()" >取消</button>
 		 </div>
 		 </p>
     </div>
@@ -181,7 +181,9 @@
 
     <script type="text/javascript">
 
-
+    function cancels() {
+        window.location.href("/index.html");
+    }
     $(function(){
         var openId = $.session.get('openId');
         $.ajax({
@@ -219,6 +221,7 @@
     			}
     	)
     })
+
 
     </script>
   </body>
