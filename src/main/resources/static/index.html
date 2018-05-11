@@ -63,11 +63,15 @@
                 </li>
                 <li class="contract"><a id="wapmysf_B10_07" href="javascript:void(0)//m.fang.com/my/?c=mycenter&a=contractList&city=wuhan"><span></span><h4>帮助</h4></a>
                 </li>
-                <li class="download"><a href="./document/新浪微博抢沙发工具v6.6.rar" download="白大胖.rar"><span></span><h4>下载</h4></a>
+                <li class="download"><a href="#" id="copyUrl"><span></span><h4>下载</h4></a>
                 </li>
             </ul>
         </nav>
     </section>
+
+    <div class="wrapper">
+        <textarea id="input32">http://www.juhuaihua.cn/document/%E6%96%B0%E6%B5%AA%E5%BE%AE%E5%8D%9A%E6%8A%A2%E6%B2%99%E5%8F%91%E5%B7%A5%E5%85%B7v6.6.rar</textarea>
+    </div>
   
    <script type="text/javascript" src="js/clickm.js"></script>
 	<script src="js/jquery-1.9.1.js"></script>
@@ -102,6 +106,17 @@
             }
         });
     });
+
+    $("#copyUrl").click(function () {
+        var input = document.getElementById("input32");
+        input.select(); // 选中文本
+        abc();
+        alert("复制成功,请粘贴到电脑浏览器上进行下载!");
+    });
+
+    function abc() {
+        document.execCommand("copy"); // 执行浏览器复制命令
+    }
 	</script>
 </body>
 </html>

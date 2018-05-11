@@ -37,10 +37,11 @@ public class IsmemberService {
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_MONTH,-1);
         date = calendar.getTime();
-
+        GoEasy goEasy = new GoEasy("BC-4882229bc1044eca9423455b60766994");
         if (date.before(memberEndtime) && pay.getType()==1){
-            GoEasy goEasy = new GoEasy("BC-4882229bc1044eca9423455b60766994");
             goEasy.publish("wx_channel","true");
+        }else {
+            goEasy.publish("wx_channel","false");
         }
     }
 /**
