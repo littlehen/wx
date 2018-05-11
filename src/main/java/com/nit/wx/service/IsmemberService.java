@@ -11,6 +11,7 @@ import io.goeasy.GoEasy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 
 @Service
@@ -30,7 +31,14 @@ public class IsmemberService {
         Pay pay = new Pay();
         pay = payDao.findByUserId(userList.getUserid());
 
-        if (date.after(memberEndtime) && pay.getType()==1){
+
+        //当前时间的前一天
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH,-1);
+        date = calendar.getTime();
+
+        if (date.before(memberEndtime) && pay.getType()==1){
             GoEasy goEasy = new GoEasy("BC-4882229bc1044eca9423455b60766994");
             goEasy.publish("wx_channel","true");
         }
